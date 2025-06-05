@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EggCoin Finance</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>EggCoin Finance</h1>
+        <p>A Fully Decentralized DeFi System – Soft-Pegged Stablecoin & Surplus Token</p>
+    </div>
+</header>
+
+<!-- INTRO -->
+<section class="intro">
+    <div class="container">
+        <h2>What is EggCoin?</h2>
+        <p>
+            EggCoin Finance introduces a new economic model where two tokens work together to create stability and opportunity:
+        </p>
+        <ul>
+            <li><strong>EGG$</strong>: stablecoin soft-pegged to $1.00</li>
+            <li><strong>CHI</strong>: floating token linked to real crypto collateral</li>
+        </ul>
+        <p>No governance – no admin – only natural incentives.</p>
+    </div>
+</section>
+
+<!-- COMPARISONS -->
+<section class="comparisons">
+    <div class="container">
+        <h2>Comparison with Other Systems</h2>
+
+        <!-- TERRA LUNA -->
+        <div class="comparison-card">
+            <h3>❌ Terra/Luna</h3>
+            <p>
+                Fully algorithmic system – no real collateral backing USDT-like tokens.  
+                When market trust vanishes → collapse.
+            </p>
+            <p><strong>EggCoin:</strong> Every pair is backed by $2.00 in crypto – cannot fail like Luna.</p>
+        </div>
+
+        <!-- TETHER -->
+        <div class="comparison-card">
+            <h3>⚠️ Tether (USDT)</h3>
+            <p>
+                Centralized stablecoin – based on trust in an opaque company  
+                No verifiable guarantee – no decentralized control
+            </p>
+            <p><strong>EggCoin:</strong> The pool is always visible on-chain – no trust required.</p>
+        </div>
+
+        <!-- ADVANTAGES -->
+        <div class="comparison-card">
+            <h3>✅ EggCoin Advantages</h3>
+            <p>
+                - 2× Guarantee: every pair has $2.00 in collateral<br/>
+                - No central point of failure<br/>
+                - Balanced pool – BTC, ETH, ADA.e, etc.<br/>
+                - Self-stabilizing system – via natural arbitrage
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- SYSTEM DETAILS -->
+<section class="system">
+    <div class="container">
+        <h2>How EggCoin Works</h2>
+        <p>
+            EggCoin Finance introduces a decentralized stablecoin model where each `(EGG$ + CHI)` pair is guaranteed by `$2.00` in locked crypto assets.
+        </p>
+        <p>
+            Built on immutable ERC-20 tokens:
+        </p>
+
+        <!-- EGG$ -->
+        <div class="token-box">
+            <h3>🟢 EGG$ – Soft-Pegged Stablecoin</h3>
+            <ul>
+                <li>Always close to $1.00</li>
+                <li>Backed by real crypto collateral</li>
+                <li>No risk – nominal value only</li>
+                <li>Redeemable only with full pair</li>
+            </ul>
+        </div>
+
+        <!-- CHI -->
+        <div class="token-box">
+            <h3>🟡 CHI – Surplus/Risk Token</h3>
+            <ul>
+                <li>Fluctuates based on the pool's total value</li>
+                <li>Represents surplus above floor price</li>
+                <li>Automatic distribution when `CHI > $1.00`</li>
+                <li>Holders receive bonus pairs proportionally</li>
+                <li>In crisis, `CHI` devalues before collateral</li>
+            </ul>
+        </div>
+
+        <!-- ARCHITECTURE -->
+        <div class="token-box">
+            <h3>🔑 Economic Architecture</h3>
+            <p>
+                The system works like this:
+            </p>
+            <ol>
+                <li>User deposits one crypto (BTC, ETH, BNB, ADA, DOGE, SOL)</li>
+                <li>System automatically swaps into balanced pool allocation:</li>
+                <ul>
+                    <li>30% WBTC</li>
+                    <li>20% WETH</li>
+                    <li>10% BNB</li>
+                    <li>10% ADA.e</li>
+                    <li>10% XRP.b</li>
+                    <li>10% DOGE</li>
+                    <li>10% SOL.b</li>
+                </ul>
+                <li>User receives: `500 EGG$ + 500 CHI`</li>
+                <li>Each pair is always worth `$2.00` in crypto</li>
+                <li>`CHI` fluctuates naturally</li>
+                <li>If `CHI > $1.00` → surplus triggers new minting</li>
+                <li>`CHI` holders get proportional rewards</li>
+                <li>The system self-stabilizes through user incentives</li>
+            </ol>
+        </div>
+
+        <!-- ECONOMIC MODEL -->
+        <div class="token-box">
+            <h3>🧮 Economic Model</h3>
+            <p>
+                The system maintains a verifiable floor price:
+            </p>
+            <pre>
+floorPricePerPair = totalCollateralValueUSD() / totalPairs()
+chiFloorPrice = floorPricePerPair - eggToken.floorPrice()
+            </pre>
+            <p>
+                When `CHI` rises above `$1.00` → surplus is available  
+                The system rewards `CHI` holders with new `(EGG$ + CHI)` pairs
+            </p>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="token-box">
+            <h3>🛡️ Security & Transparency</h3>
+            <p>
+                Unlike centralized or fully algorithmic systems:
+            </p>
+            <ul>
+                <li><strong>Fully On-Chain</strong> – all data verifiable via BscScan</li>
+                <li><strong>Balanced Pool</strong> – follows defined weights</li>
+                <li><strong>Guaranteed Redeem</strong> – burn a pair to get part of the collateral</li>
+                <li><strong>No Admin</strong> – only code-based economics</li>
+            </ul>
+        </div>
+
+        <!-- LEVERAGE EFFECT -->
+        <div class="token-box">
+            <h3>📈 Leverage Effect</h3>
+            <p>
+                Holding only `CHI` gives double exposure to pool growth:
+            </p>
+            <table>
+                <tr><td>You Invest:</td><td>$1,000</td></tr>
+                <tr><td>You Receive:</td><td>500 EGG$ + 500 CHI</td></tr>
+                <tr><td>Sell EGG$:</td><td>500 CHI = $500</td></tr>
+                <tr><td>Pool grows 20%:</td><td>500 CHI = $600</td></tr>
+                <tr><td>Total Gain:</td><td>+40% – natural leverage</td></tr>
+            </table>
+        </div>
+
+        <!-- STABILIZATION -->
+        <div class="token-box">
+            <h3>🔄 Natural Stabilization</h3>
+            <p>
+                The system self-corrects through rational user behavior:
+            </p>
+            <ul>
+                <li>If `CHI < $1.00` → arbitrage opportunity</li>
+                <li>If `CHI > $1.00` → automatic surplus distribution</li>
+                <li>All data is verifiable via BscScan</li>
+                <li>No administrator – only code-based economics</li>
+            </ul>
+        </div>
+
+        <!-- NO OWNER -->
+        <div class="token-box">
+            <h3>🔗 No Founders – Only Code</h3>
+            <p>
+                This system makes no reference to individuals or founders.  
+                It is open source, immutable, and completely transparent.  
+                All actions are traceable on-chain.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- JOIN THE COMMUNITY -->
+<section class="join">
+    <div class="container">
+        <h2>Join the EggCoin Community</h2>
+        <p>
+            EggCoin Finance is fully open source and community-governed.  
+            There is no team – only contributors who believe in decentralization.
+        </p>
+
+        <h3>How to Participate</h3>
+        <ul>
+            <li><strong>1.</strong> Fork the repo → <a href="https://github.com/eggcoin/finance"  target="_blank">GitHub</a></li>
+            <li><strong>2.</strong> Join the Telegram group → <a href="https://t.me/eggcoinchat"  target="_blank">@eggcoinchat</a></li>
+            <li><strong>3.</strong> Submit improvements as Pull Requests</li>
+            <li><strong>4.</strong> Vote approved changes using `CHI` token</li>
+        </ul>
+
+        <h3>Whitepaper In Progress</h3>
+        <p>
+            <strong>Download the basic explanation of the system:</strong><br/>
+            <a href="whitepaper-in-progress.pdf" download>📄 download  Whitepaper in progress</a>
+        </p>
+    </div>
+</section>
+
+<!-- RESOURCES -->
+<section class="links">
+    <div class="container">
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="https://github.com/eggcoin/contracts"  target="_blank">GitHub Codice Solidity</a></li>
+            <li><a href="https://testnet.bscscan.com/address/il-tuo-contratto"  target="_blank"> Solidity contract </a></li>
+            <li><a href="https://t.me/eggcoinbot"  target="_blank">Telegram Bot</a></li>
+        </ul>
+    </div>
+  <!-- Collaborate -->
+<section class="collaborate">
+    <div class="container">
+        <h2>Collaborate with the Development</h2>
+        <p>
+            EggCoin Finance is fully open source and community-driven.  
+            No founder, no governance – only natural incentives.
+        </p>
+        <p>
+            <a href="whitepaper.html" target="_blank" class="button-link">📄 Download Whitepaper in Progress</a>
+        </p>
+    </div>
+</section>
+   </section>
+
+   <!-- FOOTER -->
+   <footer>
+    <div class="container">
+        <p>© 2025 EggCoin Finance – A Decentralized DeFi System</p>
+        <p>No founder, no governance – only natural incentives</p>
+    </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    </body>
+    </html>
