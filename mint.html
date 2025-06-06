@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mint EggCoin Pair</title>
+    <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="container">
+        <h1>EggCoin Finance</h1>
+        <p>Mint Your `(EGG$ + CHI)` Pair</p>
+    </div>
+</header>
+
+<!-- CONNECT WALLET -->
+<section class="connect-wallet">
+    <div class="container">
+        <h2>Connect Your Wallet</h2>
+        <p>
+            To mint a pair, connect your MetaMask wallet or any Web3-compatible wallet.
+        </p>
+        <button onclick="connectWallet()">🔌 Connect MetaMask</button>
+        <p id="walletAddress">Not connected</p>
+    </div>
+</section>
+
+<!-- MINT PAIR -->
+<section class="mint-pair">
+    <div class="container">
+        <h2>Mint a New Pair</h2>
+        <p>
+            Deposit approximately $2.00 in crypto to mint a new `(500 EGG$ + 500 CHI)` pair.
+        </p>
+        <button onclick="mintPair()" disabled id="mintButton">🟡 Mint My Pair</button>
+        <p id="mintStatus"></p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <p>© 2025 EggCoin Finance – A Decentralized DeFi System</p>
+        <p>No founder, no governance – only natural incentives</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script> 
+<script src="mint.js"></script>
+
+</body>
+</html>
