@@ -232,3 +232,42 @@ footer {
     background-color: #d4eddd;
     color: #27ae60;
 }
+.center {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.connect-wallet,
+.mint-pair {
+    background: #fff;
+    padding: 40px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.connect-wallet h2,
+.mint-pair h2 {
+    color: #2c3e50;
+}
+
+.connect-wallet button,
+.mint-pair button {
+    background-color: #f1c40f;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.connect-wallet button:hover,
+.mint-pair button:hover {
+    background-color: #d4ac0d;
+}
+
+#mintStatus {
+    margin-top: 20px;
+    font-weight: bold;
+    color: green;
+}
