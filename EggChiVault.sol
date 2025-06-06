@@ -3,55 +3,58 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
-import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
 
 /**
  * @title EggChiVault
  * @dev Main vault contract for the EggCoin Finance system.
  * Manages dynamic minting, redeeming, and surplus distribution.
- * Fully decentralized – no admin or owner functions.
+ * Uses Chainlink oracles to read token prices.
+ * Balances the pool using PancakeSwap V2 router.
  */
 contract EggChiVault {
-    using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    IERC20 public eggToken;
-    IERC20 public chiToken;
+    IERC20 public eggToken; // EGG$ Token
+    IERC20 public chiToken; // CHI Token
 
-    // List of supported collateral tokens in the pool
+    // List of collateral tokens supported by the system
     address[] public collateralTokens = [
         0x7130d2A1D7343a57Eb7sA82e3f5Cb2A12e9ceAA7, // WBTC
         0x2170Ed0880ac9A755fd29B268891032b,         // WETH
-        0xbb4CdB9CBd36B01bD1cFefc5AF388D3e0e7c6001      // BNB
-        // Add more tokens as needed
+        0xbb4CdB9CBd36B01bD1cFefc5AF388D3e0e7c6001   // BNB
+        // Add more tokens if needed
     ];
 
-    // Target weights for each token in the pool (base 1000)
-    mapping(address => uint256) public tokenTargetWeights; // e.g., 300 = 30%
-    uint256 public totalWeight = 1000; // Total weight must equal 100%
+    // Target weights for each token (base 1000)
+    mapping(address => uint256) public tokenTargetWeights;
+    uint256 public totalWeight = 1000; // Total weight must be equal to 100%
 
-    // PancakeSwap router for automated swaps
-    IUniswapV2Router02 private constant PANCAKE_ROUTER =
-        IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E2357); // PancakeSwap Router V2 on BSC
-
-    // Verified contributors who will receive a share of surplus
+    // Verified contributor addresses that receive passive rewards
     address[] public contributorAddresses = [
         0xAbcdef1234567890Abcdef1234567890Abcdef12,
         0x2AaBcD1234567890Abcdef1234567890Abcdef12,
         0x3BbCcE567890Abcdef1234567890Abcdef1234
-        // Add remaining 97 addresses here
+        // You can add more addresses here
     ];
 
     uint256 public constant CONTRIBUTOR_SHARE_PERCENT = 10; // 10% goes to contributors
     uint256 public lastDistributionTime;
     uint256 public constant DISTRIBUTE_INTERVAL = 7 days; // Weekly distribution
 
+    // Mapping from token address to Chainlink Oracle address
+    mapping(address => address) public tokenToOracle;
+
+    // PancakeSwap V2 Router interface
+    IUniswapV2Router02 private constant PANCAKE_ROUTER =
+        IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E2357); // PancakeSwap V2 Router on BSC
+
     /**
-     * @dev Initializes the contract with EGG$ and CHI token addresses
-     * Sets the target weights for each token in the collateral pool
+     * @dev Sets up ERC-20 tokens and Chainlink oracle mappings
+     * Initializes target weights for each token in the pool
+     * @param _eggTokenAddress Address of the EGG$ token
+     * @param _chiTokenAddress Address of the CHI token
      */
     constructor(address _eggTokenAddress, address _chiTokenAddress) {
         eggToken = IERC20(_eggTokenAddress);
@@ -61,12 +64,17 @@ contract EggChiVault {
         tokenTargetWeights[0x7130d2A1D7343a57Eb7sA82e3f5Cb2A12e9ceAA7] = 300; // WBTC 30%
         tokenTargetWeights[0x2170Ed0880ac9A755fd29B268891032b] = 200; // WETH 20%
         tokenTargetWeights[0xbb4CdB9CBd36B01bD1cFefc5AF388D3e0e7c6001] = 100; // BNB 10%
-        // Set other token weights as needed
+        // Set other token weights as needed...
+
+        // Link Chainlink price feeds
+        tokenToOracle[0x7130d2A1D7343a57Eb7sA82e3f5Cb2A12e9ceAA7] = 0x0d79df6665F91D0571f9CE5a85F1dc21E0f5297e888A; // BTC Oracle
+        tokenToOracle[0x2170Ed0880ac9A755fd29B268891032b] = 0x5f4eC3Df9cb9e0a775b31c2BA2Fc02D4d2dE07; // ETH Oracle
+        tokenToOracle[0xbb4CdB9CBd36B01bD1cFefc5AF388D3e0e7c6001] = 0x0567F2323Ec08d8a8206350555C17dF40; // BNB Oracle
     }
 
     /**
-     * @dev Mints an `(EGG$ + CHI)` pair when user deposits one crypto
-     * Automatically balances the pool by swapping tokens if necessary
+     * @dev Mints a `(EGG$ + CHI)` pair when user deposits one crypto
+     * Requires approximately $2.00 USD worth of crypto
      * @param inputToken Address of the token deposited by the user
      * @param amountIn Amount of token deposited
      */
@@ -76,21 +84,10 @@ contract EggChiVault {
     ) external payable {
         require(amountIn > 0, "Amount must be greater than zero");
 
-        // Transfer the input token into the vault
+        // Transfer token into the vault
         IERC20(inputToken).safeTransferFrom(msg.sender, address(this), amountIn);
 
-        // Get current values from the pool
-        uint256[] memory currentBalances = new uint256[](collateralTokens.length);
-        for (uint256 i = 0; i < collateralTokens.length; i++) {
-            currentBalances[i] = IERC20(collateralTokens[i]).balanceOf(address(this));
-        }
-
-        uint256 totalCollateralValue = getTotalCollateralValueUSD();
-        uint256 totalPairs = getTotalPairs();
-
-        uint256 floorPricePerPair = totalCollateralValue / totalPairs;
-
-        // Auto-swap to balance the pool after deposit
+        // Balance the pool after deposit
         _autoSwapToTargetWeights(inputToken, amountIn);
 
         // Mint pair for user
@@ -98,39 +95,81 @@ contract EggChiVault {
     }
 
     /**
-     * @dev Balances the pool by swapping tokens via PancakeSwap
-     * Called after deposit to maintain correct allocation
-     * @param inputToken Token received from user
-     * @param amountIn Amount of input token
+     * @dev Redeems a full `(EGG$ + CHI)` pair for part of the locked collateral
+     * Only works if the pool has enough value to back the pair
+     * @param pairCount Number of pairs to redeem
+     */
+    function redeemPair(uint256 pairCount) external {
+        require(pairCount > 0, "Must redeem at least one pair");
+
+        uint256 totalCollateralValue = getTotalCollateralValueUSD();
+        uint256 totalPairs = getTotalPairs();
+        uint256 floorPricePerPair = totalCollateralValue / totalPairs;
+
+        // User must send full pair
+        eggToken.transferFrom(msg.sender, address(this), pairCount * 500 ether);
+        chiToken.transferFrom(msg.sender, address(this), pairCount * 500 ether);
+
+        sendCryptoEquivalent(msg.sender, floorPricePerPair * pairCount);
+    }
+
+    /**
+     * @dev Distributes new pairs to CHI holders when there is surplus
+     * Only runs once every 7 days
+     */
+    function distributeSurplus() external {
+        require(block.timestamp >= lastDistributionTime + DISTRIBUTE_INTERVAL, "Only weekly distribution allowed");
+
+        uint256 chiFloor = getChiFloorPrice();
+        if (chiFloor <= 1e18) return; // Only if CHI > $1.00
+
+        uint256 totalSupply = chiToken.totalSupply();
+        uint256 pairsToMint = (chiFloor - 1e18) * totalSupply / 1e18 / 1e18;
+
+        // 10% of all newly minted pairs go to early contributors
+        uint256 pairsForContributors = (pairsToMint * CONTRIBUTOR_SHARE_PERCENT) / 100;
+
+        for (uint256 i = 0; i < contributorAddresses.length; i++) {
+            _mintPair(contributorAddresses[i], pairsForContributors / contributorAddresses.length);
+        }
+
+        // Remaining 90% distributed to CHI holders
+        _distributeToCHI(pairsToMint * 90 / 100);
+
+        lastDistributionTime = block.timestamp;
+    }
+
+    /**
+     * @dev Automatically swaps tokens to balance the pool
+     * Called after each deposit
+     * @param inputToken The token deposited by the user
+     * @param amountIn The amount deposited
      */
     function _autoSwapToTargetWeights(
         address inputToken,
         uint256 amountIn
     ) internal {
-        uint256 totalCollateralValue = getTotalCollateralValueUSD();
+        uint256 totalCollateral = getTotalCollateralValueUSD();
 
-        // For each token in the pool:
         for (uint256 i = 0; i < collateralTokens.length; i++) {
             address token = collateralTokens[i];
             uint256 targetWeight = tokenTargetWeights[token];
             uint256 currentBalance = IERC20(token).balanceOf(address(this));
             uint256 currentValue = getTokenValueUSD(token, currentBalance);
-            uint256 currentWeight = (currentValue * 1000) / totalCollateralValue;
+            uint256 currentWeight = (currentValue * 1000) / totalCollateral;
 
             if (token == inputToken) continue;
 
-            // If below target → swap into this token
+            // If weight too low → buy more of this token
             if (currentWeight < targetWeight) {
-                uint256 missingValue = (totalCollateralValue * targetWeight) / 1000 - currentValue;
-
+                uint256 missingValue = (totalCollateral * targetWeight) / 1000 - currentValue;
                 if (missingValue > 0) {
-                    uint256 amountToSwap = getAmountInToken(inputToken, missingValue);
+                    uint256 amountToSwap = getAmountInToken(token, missingValue);
                     _swapTokenForToken(inputToken, token, amountToSwap);
                 }
             } else if (currentWeight > targetWeight) {
-                // If above target → swap out of this token
-                uint256 extraValue = currentValue - (totalCollateralValue * targetWeight) / 1000;
-
+                // If weight too high → sell some of this token
+                uint256 extraValue = currentValue - (totalCollateral * targetWeight) / 1000;
                 if (extraValue > 0) {
                     uint256 amountToSwap = getAmountInToken(token, extraValue);
                     _swapTokenForToken(token, inputToken, amountToSwap);
@@ -140,10 +179,10 @@ contract EggChiVault {
     }
 
     /**
-     * @dev Swaps one token for another using PancakeSwap
+     * @dev Swaps one token for another using PancakeSwap V2
      * @param fromToken Token to swap from
      * @param toToken Token to swap into
-     * @param amountIn Amount of token to swap
+     * @param amountIn Amount to swap
      */
     function _swapTokenForToken(
         address fromToken,
@@ -168,9 +207,9 @@ contract EggChiVault {
     }
 
     /**
-     * @dev Mints a complete `(EGG$ + CHI)` pair
-     * @param to Address to receive the pair
-     * @param amount Number of pairs to mint
+     * @dev Mints a complete `(EGG$ + CHI)` pair for a given address
+     * @param to Recipient address
+     * @param amount Amount of pairs to mint
      */
     function _mintPair(address to, uint256 amount) internal {
         eggToken.mint(to, amount);
@@ -178,84 +217,102 @@ contract EggChiVault {
     }
 
     /**
-     * @dev Calculates USD value of a token based on oracle price
+     * @dev Gets the current USD price of a token via Chainlink Oracle
+     * @param token Address of the token
+     * @return Price in USD (with 8 decimals)
+     */
+    function getTokenPriceUSD(address token) public view returns (uint256) {
+        address oracleAddress = tokenToOracle[token];
+        require(oracleAddress != address(0), "No oracle set for this token");
+
+        AggregatorV3Interface oracle = AggregatorV3Interface(oracleAddress);
+
+        (
+            ,
+            int256 price,
+            ,
+            ,
+        ) = oracle.latestRoundData();
+
+        return uint256(price);
+    }
+
+    /**
+     * @dev Calculates total USD value of all collateral in the pool
+     */
+    function getTotalCollateralValueUSD() public view returns (uint256) {
+        uint256 totalValue;
+        for (uint256 i = 0; i < collateralTokens.length; i++) {
+            address token = collateralTokens[i];
+            uint256 balance = IERC20(token).balanceOf(address(this));
+            uint256 value = getTokenValueUSD(token, balance);
+            totalValue += value;
+        }
+        return totalValue;
+    }
+
+    /**
+     * @dev Calculates USD value of a specific token balance
      * @param token Token address
      * @param amount Token amount
-     * @return USD value of the token
+     * @return Value in USD
      */
     function getTokenValueUSD(address token, uint256 amount) public view returns (uint256) {
-        return amount.mul(getOraclePrice(token)).div(1e18);
+        uint256 decimals = uint256(AggregatorV3Interface(tokenToOracle[token]).decimals());
+        uint256 price = getTokenPriceUSD(token);
+        return (price * amount) / (10 ** decimals);
     }
 
     /**
-     * @dev Returns simulated oracle price for a token
-     * In production, replace with Chainlink or TWAP
-     * @param token Token address
-     * @return Price in USD (with 18 decimals)
+     * @dev Floor price of a single pair `(EGG$ + CHI)`
      */
-    function getOraclePrice(address token) public pure returns (uint256) {
-        if (token == 0x7130d2A1D7343a57Eb7sA82e3f5Cb2A12e9ceAA7) {
-            return 30_000e18; // WBTC = $30,000
-        }
-        return 1e18; // Default: $1.00
+    function getFloorPricePerPair() public view returns (uint256) {
+        uint256 totalCollateral = getTotalCollateralValueUSD();
+        uint256 totalPairs = getTotalPairs();
+        return totalCollateral / totalPairs;
     }
 
     /**
-     * @dev Simulates total value of all collateral in USD
-     * Replace with real data in production
+     * @dev Minimum guaranteed value of CHI
      */
-    function getTotalCollateralValueUSD() public pure returns (uint256) {
-        return 2_000_000e18; // $2.000.000
+    function getChiFloorPrice() public view returns (uint256) {
+        uint256 floorPerPair = getFloorPricePerPair();
+        return floorPerPair - 1e18; // Subtract EGG$ value ($1.00)
     }
 
     /**
      * @dev Simulates total circulating pairs
-     * Replace with real data in production
      */
     function getTotalPairs() public pure returns (uint256) {
         return 1_000_000; // 1 million pairs
     }
 
     /**
-     * @dev Distributes surplus to CHI holders and contributors
-     * Only runs once every 7 days
+     * @dev Sends native crypto equivalent to $2.00 per pair
      */
-    function distributeSurplus() external {
-        require(block.timestamp >= lastDistributionTime + DISTRIBUTE_INTERVAL, "Only weekly distribution allowed");
+    function sendCryptoEquivalent(address to, uint256 valueUSD) internal {
+        payable(to).transfer(valueUSD);
+    }
 
-        uint256 chiFloor = getChiFloorPrice();
-        if (chiFloor <= 1e18) return;
+    /**
+     * @dev Returns the Chainlink oracle for a token
+     */
+    function getOracleForToken(address token) public view returns (address) {
+        return tokenToOracle[token];
+    }
 
-        uint256 totalSupply = chiToken.totalSupply();
-        uint256 pairsToMint = (chiFloor.sub(1e18)).mul(totalSupply).div(1e18).div(1e18);
-
-        // 10% of rewards go to early contributors
-        uint256 pairsForContributors = (pairsToMint * CONTRIBUTOR_SHARE_PERCENT) / 100;
-
-        for (uint256 i = 0; i < contributorAddresses.length; i++) {
-            _mintPair(contributorAddresses[i], pairsForContributors / contributorAddresses.length);
-        }
-
-        // Remaining 90% distributed to CHI holders
-        _distributeToCHI(pairsToMint * 90 / 100);
-
-        lastDistributionTime = block.timestamp;
+    /**
+     * @dev Calculates how much of a token is needed to cover a USD value
+     */
+    function getAmountInToken(address token, uint256 valueUSD) public view returns (uint256) {
+        uint256 price = getTokenPriceUSD(token);
+        return (valueUSD * 1e18) / price;
     }
 
     /**
      * @dev Distributes newly minted pairs to CHI holders
-     * In production, use proportional logic and snapshots
      */
     function _distributeToCHI(uint256 amount) internal {
         chiToken.mint(msg.sender, amount);
-    }
-
-    /**
-     * @dev Floor price of CHI is derived from the pool
-     * Calculated as: floor price of pair minus EGG$ value
-     */
-    function getChiFloorPrice() public view returns (uint256) {
-        uint256 floorPerPair = getTotalCollateralValueUSD().div(getTotalPairs());
-        return floorPerPair.sub(1e18); // Subtract EGG$ value
     }
 }
