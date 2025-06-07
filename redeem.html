@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>EggCoin Finance – Redeem</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script> 
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>EggCoin Finance</h1>
+        <p>Guaranteed Redeem of `(EGG$ + CHI)` pairs</p>
+    </div>
+</header>
+
+<section class="connect-wallet">
+    <div class="container">
+        <h2>Connect Your Wallet</h2>
+        <button onclick="connectWallet()">🔌 Connect MetaMask</button>
+        <p id="walletAddress">Not connected</p>
+    </div>
+</section>
+
+<section class="redeem">
+    <div class="container">
+        <h2>Redeem Your Pair</h2>
+        <p>
+            Burn a full `(500 EGG$ + 500 CHI)` pair to get back part of the locked collateral.
+        </p>
+        <label for="pairCount">Number of Pairs to Redeem:</label>
+        <input type="number" id="pairCount" min="1" placeholder="Enter number of pairs" />
+        <button onclick="redeemPair()" disabled id="redeemButton">🟡 Start Redeem</button>
+        <p id="redeemStatus"></p>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© 2025 EggCoin Finance – A Decentralized DeFi System</p>
+        <p>No founder, no governance – only natural incentives</p>
+    </div>
+</footer>
+
+<script src="web3.js"></script>
+<script src="redeem.js"></script>
+
+</body>
+</html>
