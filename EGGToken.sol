@@ -5,31 +5,38 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
  * @title EGGToken
- * @dev ERC20 token for EggCoin Finance system
- * Stablecoin soft-pegged to $1.00 USD
- * No governance, no admin – only minting and burning via vault contract
+ * @dev Trustless stablecoin soft-pegged to $1, mintable/burnable only by vault
  */
 contract EGGToken is ERC20 {
-    /**
-     * @dev Initializes the contract with name "Egg Dollar" and symbol "EGG$"
-     */
-    constructor() ERC20("Egg Dollar", "EGG$") {}
+    address public immutable vault;
 
-    /**
-     * @dev Mints new EGG$ tokens
-     * Can only be called by the EggChiVault contract
-     * @param account The address to receive new tokens
-     * @param amount The number of tokens to mint
-     */
-    function mint(address account, uint256 amount) external {
-        _mint(account, amount);
+    event Minted(address indexed to, uint256 amount);
+    event Burned(address indexed from, uint256 amount);
+
+    modifier onlyVault() {
+        require(msg.sender == vault, "EGGToken: caller is not the vault");
+        _;
     }
 
-    /**
-     * @dev Burns EGG$ tokens when redeemed
-     * @param amount The number of tokens to burn
-     */
-    function burn(uint256 amount) external {
-        _burn(msg.sender, amount);
+    constructor(address _vault) ERC20("Egg Dollar", "EGG$") {
+        require(_vault != address(0), "EGGToken: vault cannot be zero address");
+        vault = _vault;
+    }
+
+    function mint(address account, uint256 amount) external onlyVault {
+        require(account != address(0), "EGGToken: mint to zero address");
+        require(amount > 0, "EGGToken: cannot mint zero");
+
+        _mint(account, amount);
+        emit Minted(account, amount);
+    }
+
+    function burn(address account, uint256 amount) external onlyVault {
+        require(account != address(0), "EGGToken: burn from zero address");
+        require(amount > 0, "EGGToken: cannot burn zero");
+        require(balanceOf(account) >= amount, "EGGToken: burn amount exceeds balance");
+
+        _burn(account, amount);
+        emit Burned(account, amount);
     }
 }
