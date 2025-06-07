@@ -5,31 +5,38 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
  * @title CHIToken
- * @dev ERC20 token representing surplus value in the EggCoin pool
- * Fluctuates based on total collateral
- * No owner, no admin – fully decentralized
+ * @dev Surplus token for EggCoin system, fully decentralized
  */
 contract CHIToken is ERC20 {
-    /**
-     * @dev Initializes the contract with name "Chi Coin" and symbol "CHI"
-     */
-    constructor() ERC20("Chi Coin", "CHI") {}
+    address public immutable vault;
 
-    /**
-     * @dev Mints new CHI tokens
-     * Only callable by the EggChiVault contract
-     * @param account The address to receive new tokens
-     * @param amount The number of tokens to mint
-     */
-    function mint(address account, uint256 amount) external {
-        _mint(account, amount);
+    event Minted(address indexed to, uint256 amount);
+    event Burned(address indexed from, uint256 amount);
+
+    modifier onlyVault() {
+        require(msg.sender == vault, "CHIToken: caller is not the vault");
+        _;
     }
 
-    /**
-     * @dev Burns CHI tokens during redeem process
-     * @param amount The number of tokens to burn
-     */
-    function burn(uint256 amount) external {
-        _burn(msg.sender, amount);
+    constructor(address _vault) ERC20("Chi Coin", "CHI") {
+        require(_vault != address(0), "CHIToken: vault cannot be zero address");
+        vault = _vault;
+    }
+
+    function mint(address account, uint256 amount) external onlyVault {
+        require(account != address(0), "CHIToken: mint to zero address");
+        require(amount > 0, "CHIToken: cannot mint zero");
+
+        _mint(account, amount);
+        emit Minted(account, amount);
+    }
+
+    function burn(address account, uint256 amount) external onlyVault {
+        require(account != address(0), "CHIToken: burn from zero address");
+        require(amount > 0, "CHIToken: cannot burn zero");
+        require(balanceOf(account) >= amount, "CHIToken: burn amount exceeds balance");
+
+        _burn(account, amount);
+        emit Burned(account, amount);
     }
 }
