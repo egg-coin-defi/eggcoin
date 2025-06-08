@@ -1,324 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>EggCoin Finance – Extended Technical Whitepaper</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egg-Chi Protocol Whitepaper</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 40px 20px;
-        }
-
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            border-left: 4px solid #3498db;
-            padding-left: 10px;
-        }
-
-        h3 {
-            color: #27ae60;
-        }
-
-        pre {
-            background: #fefefe;
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-
-        code {
-            font-family: monospace;
-            background: #ecf0f1;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        ul, ol {
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f1f1f1;
-        }
-
-        footer {
-            background: #ecf0f1;
-            text-align: center;
-            padding: 30px;
-            font-size: 0.9em;
-            color: #888;
-            margin-top: 40px;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f9f9f9; }
+        .container { max-width: 900px; margin: 30px auto; padding: 20px; background-color: #fff; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 8px; }
+        h1, h2, h3, h4 { color: #2c3e50; margin-top: 25px; margin-bottom: 15px; }
+        h1 { font-size: 2.8em; text-align: center; color: #1e3a8a; padding-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
+        h2 { font-size: 2.2em; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        h3 { font-size: 1.8em; }
+        h4 { font-size: 1.4em; }
+        p { margin-bottom: 10px; }
+        ul { list-style-type: disc; margin-left: 20px; margin-bottom: 10px; }
+        ol { list-style-type: decimal; margin-left: 20px; margin-bottom: 10px; }
+        .abstract, .conclusion { background-color: #e8f0fe; border-left: 5px solid #3b82f6; padding: 15px 20px; margin: 20px 0; border-radius: 4px; }
+        .code-block { background-color: #f4f4f4; border: 1px solid #ddd; padding: 15px; margin: 20px 0; overflow-x: auto; border-radius: 5px; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; }
+        .note { background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 10px 15px; margin: 15px 0; border-radius: 4px; color: #664d03; }
+        a { color: #3b82f6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Egg-Chi Protocol: A Trustless Dual-Token Algorithmic System</h1>
 
-<div class="container">
+        <div class="abstract">
+            <h2>Abstract</h2>
+            <p>
+                The Egg-Chi Protocol introduces an innovative decentralized financial system based on a dual-token model: **EGG**, a decentralized stablecoin pegged to the US Dollar, and **CHI**, a volatile reserve token designed to absorb price fluctuations and offer leveraged exposure to the underlying collateral assets. This whitepaper outlines the protocol's philosophy, technical architecture, and the sophisticated mechanisms employed to maintain EGG's peg, manage collateral, and distribute surplus value. The system is designed to be fully trustless and autonomous, without a central governance body, relying solely on predefined smart contract logic and market arbitrage.
+            </p>
+        </div>
 
-    <h1>EggCoin Finance</h1>
-    <p><strong>Extended Technical Whitepaper</strong></p>
-    <p><em>Version 1.0 · April 2025 · No Founder · Fully Decentralized</em></p>
+        <h2>1. Introduction</h2>
+        <p>
+            The decentralized finance (DeFi) landscape constantly seeks robust and scalable solutions for stable assets and capital-efficient leveraging. While numerous stablecoin models exist, many rely on centralized custodians, over-collateralization with volatile assets, or complex algorithmic adjustments that require active governance. The Egg-Chi Protocol aims to address these challenges by providing a unique, self-sustaining, and immutable system.
+        </p>
+        <p>
+            At its core, Egg-Chi separates the stable value (EGG) from the volatile surplus (CHI), allowing each token to serve distinct market purposes while maintaining their symbiotic relationship. The protocol prioritizes automation and immutability, ensuring its operation is governed solely by smart contract code, free from human intervention or external governance.
+        </p>
 
-    <h2>1. Introduction</h2>
-    <p>
-        EggCoin Finance introduces a new DeFi model where two tokens work together to create stability and opportunity:
-    </p>
-    <ul>
-        <li><code>EGG$</code>: soft-pegged stablecoin to $1.00 USD</li>
-        <li><code>CHI</code>: floating token linked to real crypto collateral</li>
-    </ul>
-    <p>
-        This system is fully decentralized and immutable.  
-        There is no governance, no admin, and no central point of control.
-    </p>
-
-    <h2>2. System Philosophy</h2>
-    <p>
-        The core principles that define EggCoin Finance are:
-    </p>
-    <ul>
-        <li><strong>No Governance:</strong> No team, no founder, no owner.</li>
-        <li><strong>No Admin Control:</strong> All actions are governed by economic logic and smart contracts.</li>
-        <li><strong>Transparency:</strong> All data is on-chain and verifiable via BscScan.</li>
-        <li><strong>Decentralization from Day One:</strong> No future upgrades or centralized decisions allowed.</li>
-    </ul>
-
-    <h2>3. Financial Architecture</h2>
-    <p>
-        Every `(EGG$ + CHI)` pair is guaranteed by <code>$2.00</code> in locked crypto assets.
-    </p>
-    <pre>
-floorPricePerPair = totalCollateralValueUSD() / totalPairs()
-chiFloorPrice = floorPricePerPair - eggToken.floorPrice()
-    </pre>
-    <p>
-        If <code>chiFloorPrice > $1.00</code>, the system rewards <code>CHI</code> holders with new pairs.
-    </p>
-
-    <h2>4. Token Design</h2>
-
-    <h3>4.1 EGG$ – Soft-Pegged Stablecoin</h3>
-    <ul>
-        <li>Always close to $1.00</li>
-        <li>Backed by real crypto collateral</li>
-        <li>No risk – only nominal value</li>
-        <li>Redeemable only with full pair</li>
-    </ul>
-
-    <h3>4.2 CHI – Surplus/Risk Token</h3>
-    <ul>
-        <li>Fluctuates based on pool's total value</li>
-        <li>Represents surplus above floor price</li>
-        <li>Automatic distribution when <code>CHI > $1.00</code></li>
-        <li>Holders receive bonus pairs proportionally</li>
-        <li>In crisis, <code>CHI</code> devalues before collateral</li>
-    </ul>
-
-    <h2>5. Minting & Redeeming Mechanism</h2>
-    <p>
-        Users can mint a new `(EGG$ + CHI)` pair by depositing <code>$2.00</code> worth of any single crypto.
-    </p>
-    <ol>
-        <li>User deposits BTC, ETH, BNB, ADA.e, DOGE, SOL.b, etc.</li>
-        <li>The system automatically swaps into balanced pool allocation:</li>
+        <h2>2. Philosophy and Core Principles</h2>
         <ul>
-            <li>30% WBTC</li>
-            <li>20% WETH</li>
-            <li>10% BNB</li>
-            <li>10% ADA.e</li>
-            <li>10% XRP.b</li>
-            <li>10% DOGE</li>
-            <li>10% SOL.b</li>
+            <li>**Decentralization & Trustlessness:** The system operates without centralized control, a DAO, or human governance. All parameters and operations are encoded in smart contracts, immutable after deployment.</li>
+            <li>**Algorithmic Peg Stability:** EGG's $1 peg is maintained through algorithmic minting and burning mechanisms, incentivizing arbitrageurs to correct price deviations.</li>
+            <li>**Capital Efficiency & Leveraged Exposure:** CHI token intrinsically provides leveraged exposure to the underlying collateral's appreciation, offering a unique investment opportunity.</li>
+            <li>**Surplus Distribution & Ecosystem Health:** A defined mechanism for distributing excess collateral value (surplus) ensures the system remains healthy, incentives new minting, and transparently benefits CHI holders.</li>
+            <li>**Transparency & Predictability:** All rules are public and auditable on the blockchain, fostering predictable behavior and user confidence.</li>
         </ul>
-        <li>User receives: <code>500 EGG$ + 500 CHI</code></li>
-        <li>Each pair is always worth <code>$2.00</code> in crypto</li>
-        <li><code>CHI</code> fluctuates naturally</li>
-        <li>If <code>CHI > $1.00</code> → surplus triggers new minting</li>
-        <li><code>CHI</code> holders get proportional rewards</li>
-        <li>The system self-stabilizes through user incentives</li>
-    </ol>
 
-    <h2>6. Surplus Distribution</h2>
-    <p>
-        When <code>CHI</code> rises above <code>$1.00</code>, surplus becomes available.
-    </p>
-    <ul>
-        <li>System mints new `(EGG$ + CHI)` pairs</li>
-        <li>10% of new pairs go to verified early contributors</li>
-        <li>90% go to <code>CHI</code> holders</li>
-    </ul>
-    <p>
-        Example:
-    </p>
-    <table>
-        <tr><th>Metric</th><th>Value</th></tr>
-        <tr><td>Total Pairs</td><td>1,000,000</td></tr>
-        <tr><td>Total Collateral</td><td>$2,000,000</td></tr>
-        <tr><td>Surplus Available</td><td>$100,000</td></tr>
-        <tr><td>New Pairs Minted</td><td>50,000</td></tr>
-        <tr><td>To Early Contributors</td><td>5,000 pairs</td></tr>
-        <tr><td>To CHI Holders</td><td>45,000 pairs</td></tr>
-    </table>
+        <h2>3. The Dual-Token Model: EGG and CHI</h2>
 
-    <h2>7. Security & Transparency</h2>
-    <p>
-        Unlike centralized or fully algorithmic systems:
-    </p>
-    <ul>
-        <li><strong>Fully On-Chain:</strong> all data verifiable via BscScan</li>
-        <li><strong>Balanced Pool:</strong> follows defined weights</li>
-        <li><strong>Guaranteed Redeem:</strong> burn a pair to get part of the collateral</li>
-        <li><strong>No Admin:</strong> only economic logic governs the system</li>
-    </ul>
+        <h3>3.1. EGG Token ($EGG)</h3>
+        <ul>
+            <li>**Nature:** EGG is a decentralized stablecoin designed to maintain a soft peg to $1 USD.</li>
+            <li>**Purpose:** To serve as a stable medium of exchange and unit of account within the decentralized ecosystem.</li>
+            <li>**Minting/Burning:** EGG tokens are minted and burned solely by the Egg-Chi System contract in conjunction with CHI tokens, always reflecting a $1 value per EGG for minting and redeeming.</li>
+            <li>**Collateral Backing:** EGG is backed by a diversified basket of crypto assets held within the Egg-Chi System's vault. The system aims for a 200% collateralization ratio, where 100% backs EGG's $1 peg, and the remaining 100% (or more) contributes to CHI's value.</li>
+        </ul>
 
-    <h2>8. Leverage Effect</h2>
-    <p>
-        Holding only <code>CHI</code> gives double exposure to pool growth:
-    </p>
-    <table>
-        <tr><td>You Invest:</td><td>$1,000</td></tr>
-        <tr><td>You Receive:</td><td>500 EGG$ + 500 CHI</td></tr>
-        <tr><td>Sell EGG$:</td><td>500 CHI = $500</td></tr>
-        <tr><td>Pool grows 20%:</td><td>500 CHI = $600</td></tr>
-        <tr><td>Total Gain:</td><td>+40% – natural leverage</td></tr>
-    </table>
+        <h3>3.2. CHI Token ($CHI)</h3>
+        <ul>
+            <li>**Nature:** CHI is a volatile reserve token. Its value is directly tied to the surplus collateral within the system beyond what is required to back EGG.</li>
+            <li>**Purpose:** To absorb price volatility from the collateral assets, allowing EGG to remain stable. It also acts as a leveraged investment, as an increase in the collateral's value disproportionately affects CHI's price.</li>
+            <li>**Minting/Burning:** Like EGG, CHI tokens are minted and burned exclusively by the Egg-Chi System contract as part of the pair minting/redeeming process.</li>
+            <li>**Leverage:** The design intrinsically provides a 2x leverage effect on CHI relative to collateral appreciation. If the collateral pool's value increases by $X beyond EGG's backing, this entire $X is reflected in CHI's price.</li>
+        </ul>
 
-    <h2>9. Natural Stabilization</h2>
-    <p>
-        The system self-corrects through rational user behavior:
-    </p>
-    <ul>
-        <li>If <code>CHI < $1.00</code> → arbitrage opportunity</li>
-        <li>If <code>CHI > $1.00</code> → automatic surplus distribution</li>
-        <li>All data is verifiable via BscScan</li>
-        <li>No administrator – only code-based economics</li>
-    </ul>
+        <h2>4. System Architecture: The EggChiSystem Contract</h2>
+        <p>
+            The `EggChiSystem` smart contract is the central component orchestrating the protocol's mechanics. It interacts with the `EGGToken` and `CHIToken` contracts, manages collateral, and implements the core logic for minting, redeeming, and surplus distribution.
+        </p>
 
-    <h2>10. Developer Rewards</h2>
-    <p>
-        The first 100 contributors will receive a fixed share of future distributions.
-    </p>
-    <ul>
-        <li>Rewards distributed automatically</li>
-        <li>No special privileges – only passive income</li>
-        <li>Addresses are set at launch – cannot be changed</li>
-    </ul>
+        <h3>4.1. Core Collateral Assets</h3>
+        <p>
+            The Egg-Chi system is backed by a diversified basket of highly liquid and robust cryptocurrencies. This multi-collateral approach aims to enhance stability and reduce single-asset risk.
+        </p>
+        <ul>
+            <li>**Bitcoin (BTC)**</li>
+            <li>**Ethereum (ETH)**</li>
+            <li>**Solana (SOL)**</li>
+            <li>**BNB (BNB)**</li>
+            <li>**Cardano (ADA)**</li>
+            <li>**Dogecoin (DOGE)**</li>
+            <li>**TRON (TRX)**</li>
+        </ul>
+        <p class="note">
+            **Note:** The exact implementation for handling multiple collateral assets, including their weighting and rebalancing, is managed internally by the `EggChiSystem`'s collateral management logic (e.g., `_rebalancePool`). Price feeds for each accepted collateral asset are crucial for accurate valuation.
+        </p>
 
-    <h2>11. Smart Contract Structure</h2>
-    <p>
-        The system uses three main Solidity contracts:
-    </p>
-    <ul>
-        <li><code>EGGToken.sol</code> – ERC-20 stablecoin</li>
-        <li><code>CHIToken.sol</code> – ERC-20 surplus token</li>
-        <li><code>EggChiVault.sol</code> – manages minting, redeeming, and surplus</li>
-    </ul>
-    <p>
-        All contracts are open source, immutable, and have no owner or admin.
-    </p>
+        <h3>4.2. Oracles and Price Feeds</h3>
+        <p>
+            Accurate and reliable price data for the underlying collateral assets is paramount. The Egg-Chi Protocol integrates with Chainlink Price Feeds, a decentralized oracle network, to obtain real-time, tamper-proof market data.
+        </p>
+        <p>
+            For each accepted collateral asset (BTC, ETH, SOL, BNB, ADA, DOGE, TRX), a dedicated Chainlink `AggregatorV3Interface` instance will be utilized. This ensures that all valuations within the `EggChiSystem` (e.g., `getTokenValueUSD()`, `getTokenAmountForUSD()`, and especially `getChiPrice()`) are based on robust and decentralized data.
+        </p>
 
-    <h2>12. Chainlink Integration</h2>
-    <p>
-        The system reads prices using Chainlink Oracles:
-    </p>
-    <table>
-        <tr><th>Token</th><th>Oracle Address</th></tr>
-        <tr><td>WBTC</td><td>0x0d79df6665F91D0571f9CE5a85F1dc21E0f5297e888A</td></tr>
-        <tr><td>WETH</td><td>0x5f4eC3Df9cb9e0a775b31c2BA2Fc02D4d2dE07</td></tr>
-        <tr><td>BNB</td><td>0x0567F2323Ec08d8a8206350555C17dF40</td></tr>
-    </table>
+        <h3>4.3. Operations Lock Mechanism</h3>
+        <p>
+            To prevent front-running and ensure fair operations, the `EggChiSystem` implements an automatic lock mechanism:
+        </p>
+        <ul>
+            <li>**`LOCK_TRIGGER` (1.28 USD):** If the intrinsic price of CHI (calculated from surplus collateral) rises to or above this threshold, operations (minting and redeeming) are automatically locked.</li>
+            <li>**`LOCK_DURATION` (24 hours):** Once locked, operations remain suspended for a fixed period (e.g., 24 hours).</li>
+            <li>**`chiPriceAtLock`:** The price of CHI at the moment of locking is recorded.</li>
+            <li>**`unlockOperations()`:** Anyone can call this function to unlock operations after `LOCK_DURATION` has passed.</li>
+            <li>**`extendLock()`:** This function is automatically called after a `triggerDistribution()` event, resetting the `LOCK_DURATION` and effectively extending the lock period. This ensures stability immediately following a major system event.</li>
+        </ul>
+        <p>
+            This mechanism ensures that during periods of significant CHI value appreciation (indicating high surplus), the system can stabilize before new minting or large redemptions occur, which could impact the price alignment.
+        </p>
 
-    <h2>13. PancakeSwap Auto-Swapping</h2>
-    <p>
-        The system balances itself using PancakeSwap V2:
-    </p>
-    <pre>
-function _swapTokenForToken(
-    address fromToken,
-    address toToken,
-    uint256 amountIn
-) internal {
-    require(fromToken != toToken, "Same token not allowed");
-    IERC20(fromToken).approve(address(PANCAKE_ROUTER), amountIn);
-    
-    address[] memory path = new address[](2);
-    path[0] = fromToken;
-    path[1] = toToken;
+        <h3>4.4. Minting Pairs (EGG + CHI)</h3>
+        <p>
+            Users can mint new EGG and CHI pairs by depositing collateral assets. The system ensures that for every new EGG minted, there is at least $1 worth of collateral, plus additional collateral for CHI based on its current intrinsic value.
+        </p>
+        <ul>
+            <li>**`mintWithSingleToken(inputToken, amountIn, minAmountOut)`:** Users deposit one of the accepted collateral tokens.</li>
+            <li>The system calculates the value of the deposited collateral in USD using Chainlink oracles.</li>
+            <li>It then determines how many EGG+CHI pairs can be minted based on the current intrinsic value of one pair (1 EGG at $1 + 1 CHI at its current intrinsic price).</li>
+            <li>The `_rebalancePool()` internal function (implementation details for collateral management) ensures the deposited collateral is properly allocated and held within the vault.</li>
+            <li>New EGG and CHI tokens are then minted and transferred to the user.</li>
+            <li>The `_updateUserPendingRewards()` is called before the mint to ensure the user's CHI balance changes are accounted for in reward calculations.</li>
+        </ul>
+        <p class="code-block">
+            <code>function mintWithSingleToken(address inputToken, uint256 amountIn, uint256 minAmountOut) external</code>
+        </p>
 
-    PANCAKE_ROUTER.swapExactTokensForTokens(
-        amountIn,
-        0,
-        path,
-        address(this),
-        block.timestamp
-    );
-}
-    </pre>
-    <p>
-        This ensures the pool maintains correct weight after every deposit.
-    </p>
+        <h3>4.5. Redeeming Pairs (EGG + CHI)</h3>
+        <p>
+            Users can redeem their EGG and CHI pairs for the underlying collateral. The value of collateral returned will reflect the current intrinsic value of the EGG ($1) and CHI (current price) being burned.
+        </p>
+        <ul>
+            <li>**`redeemPair(pairCount)`:** Users burn a specified number of EGG and CHI pairs.</li>
+            <li>The system calculates the total USD value to be returned based on `pairCount` and the current intrinsic value of an EGG+CHI pair.</li>
+            <li>The corresponding EGG and CHI tokens are burned from the user's address.</li>
+            <li>The system then transfers the calculated value in collateral assets back to the user.</li>
+            <li>The `_updateUserPendingRewards()` is called before the redeem to ensure the user's CHI balance changes are accounted for in reward calculations.</li>
+        </ul>
+        <p class="code-block">
+            <code>function redeemPair(uint256 pairCount) external</code>
+        </p>
 
-    <h2>14. Conclusion</h2>
-    <p>
-        EggCoin Finance represents a breakthrough in DeFi design:
-    </p>
-    <ul>
-        <li>✅ Full decentralization</li>
-        <li>✅ Natural stabilization</li>
-        <li>✅ Transparent pricing</li>
-        <li>✅ Community-driven development</li>
-        <li>✅ Immutable contracts</li>
-    </ul>
-    <p>
-        The system runs on code only – no trust required.
-    </p>
+        <h3>4.6. Redeeming During Lock</h3>
+        <p>
+            To provide an emergency exit and liquidity, users can still redeem their EGG+CHI pairs even when operations are locked.
+        </p>
+        <ul>
+            <li>**`redeemDuringLock(pairCount)`:** This function allows redemption when `operationsLocked` is true.</li>
+            <li>The value returned is based on the *current* intrinsic price of CHI, not necessarily the price at which the lock was triggered.</li>
+            <li>This ensures that users can always access their collateral, even during periods of high market volatility or system adjustments.</li>
+            <li>The `_updateUserPendingRewards()` is called before the redeem to ensure the user's CHI balance changes are accounted for in reward calculations.</li>
+        </ul>
+        <p class="code-block">
+            <code>function redeemDuringLock(uint256 pairCount) external</code>
+        </p>
 
-    <h2>15. Resources</h2>
-    <ul>
-        <li><a href="https://github.com/marcofabr/eggcoin/tree/contracts/"  target="_blank">GitHub – Smart Contracts</a></li>
-        <li><a href="mint.html" target="_blank">Mint Your Pair</a></li>
-        <li><a href="index.html" target="_blank">Landing Page</a></li>
-        <li><a href="https://bscscan.com/address/il-tuo-contratto"  target="_blank">Verify Contract on BscScan</a></li>
-    </ul>
+        <h2>5. Surplus Distribution Mechanism</h2>
+        <p>
+            The protocol features a unique and immutable mechanism for distributing surplus value generated by the appreciation of the underlying collateral. This mechanism serves a dual purpose: to incentivize new minting by keeping the EGG+CHI pair value aligned closer to $2, and to distribute the collateral gains directly to CHI holders without requiring explicit staking.
+        </p>
 
-</div>
+        <h3>5.1. Triggering Distribution</h3>
+        <ul>
+            <li>**`DISTRIBUTION_THRESHOLD` (1.30 USD):** The `triggerDistribution()` function can only be called when the intrinsic price of CHI reaches or exceeds this threshold AND operations are currently locked.</li>
+            <li>**`triggerDistribution()` Function:** Anyone can call this function. It performs the following steps:
+                <ol>
+                    <li>Calculates the total surplus value in USD (current CHI price - $1, multiplied by total CHI supply).</li>
+                    <li>Determines the number of new EGG+CHI pairs that can be minted from this surplus, based on the current pair value.</li>
+                    <li>**Creator Share (10%):** A fixed 10% of these newly minted pairs are sent to the predefined `creatorAddress`. This is a one-time allocation at the time of distribution.</li>
+                    <li>**Holder Share (90%):** The remaining 90% of the newly minted pairs are conceptually allocated to all existing CHI holders. This value is added to the `chiRewardIndex`.</li>
+                    <li>The `lockStartTime` is extended, restarting the 24-hour lock period.</li>
+                </ol>
+            </li>
+        </ul>
+        <p class="code-block">
+            <code>function triggerDistribution() external</code>
+        </p>
 
-<footer>
-    <p>© 2025 EggCoin Finance – A Decentralized DeFi System</p>
-    <p>No founder, no governance – only natural incentives</p>
-</footer>
+        <h3>5.2. Claiming Surplus Rewards</h3>
+        <p>
+            CHI holders do not need to stake their tokens. Instead, they can claim their accumulated surplus rewards through a pull-based mechanism.
+        </p>
+        <ul>
+            <li>**`chiRewardIndex`:** This is a global, cumulative index that tracks the total rewards distributed per unit of CHI since the system's inception. It increases with each `triggerDistribution`.</li>
+            <li>**`userLastClaimedChiRewardIndex[user]`:** For each user, this mapping stores the `chiRewardIndex` value at the time of their last reward claim or system interaction (mint/redeem).</li>
+            <li>**`userPendingClaimablePairs[user]`:** This mapping stores the actual number of EGG+CHI pairs an individual user can claim.</li>
+            <li>**`_updateUserPendingRewards(user)`:** This internal function is critical. It is called by `claimSurplusRewards()` and also automatically at the beginning of `mintWithSingleToken()`, `redeemPair()`, and `redeemDuringLock()`. Its purpose is to:
+                <ul>
+                    <li>Calculate the rewards earned by the `user` based on their current CHI balance and the difference between the global `chiRewardIndex` and their `userLastClaimedChiRewardIndex`.</li>
+                    <li>Add these newly calculated rewards to `userPendingClaimablePairs[user]`.</li>
+                    <li>**Crucially, it updates `userLastClaimedChiRewardIndex[user]` to the current `chiRewardIndex`.** This is how the "expiration" mechanism works.</li>
+                </ul>
+            </li>
+            <li>**`claimSurplusRewards()` Function:** Users call this function to withdraw their accumulated `userPendingClaimablePairs`.
+                <ul>
+                    <li>It first calls `_updateUserPendingRewards(msg.sender)` to ensure all due rewards are calculated up to the current moment.</li>
+                    <li>Then, it transfers the `userPendingClaimablePairs` (in EGG+CHI) to the user's address and resets the pending amount to zero.</li>
+                </ul>
+            </li>
+        </ul>
+        <p class="code-block">
+            <code>function claimSurplusRewards() external</code>
+        </p>
 
+        <h3>5.3. Reward Expiration Logic</h3>
+        <p>
+            The system implements a built-in mechanism to incentivize timely claims and manage unclaimed rewards.
+        </p>
+        <ul>
+            <li>Rewards are assigned to CHI holders at the moment `triggerDistribution()` is called, based on their CHI balance at that exact block.</li>
+            <li>However, users must "realize" these rewards by calling `claimSurplusRewards()` or by performing a `mintWithSingleToken()` / `redeemPair()` / `redeemDuringLock()` operation.</li>
+            <li>**If a user does not claim their rewards (or interact with the system to update their `userLastClaimedChiRewardIndex`) before the *next* `triggerDistribution()` event occurs, the rewards from the previous distribution that they did not claim are effectively "burned" or forfeited.** This is because their `userLastClaimedChiRewardIndex` will update to the new `chiRewardIndex` when they *do* interact, and they will only accrue rewards from that new point forward. The historical unclaimed portion becomes inaccessible.</li>
+        </ul>
+        <p>
+            This design ensures that the value of CHI for new minters is kept aligned with the system's target of $1, as the surplus is regularly distributed, preventing the EGG+CHI pair from becoming excessively expensive to mint.
+        </p>
+
+        <h2>6. Security Considerations</h2>
+        <p>
+            As a trustless and immutable system, security is paramount.
+        </p>
+        <ul>
+            <li>**Smart Contract Risk:** Despite rigorous design, smart contracts can contain vulnerabilities. The protocol's reliance on fixed, non-upgradable code makes initial auditing critical.</li>
+            <li>**Oracle Risk:** While Chainlink is a decentralized oracle, reliance on external data feeds introduces potential risks if the oracle itself is compromised or provides inaccurate data.</li>
+            <li>**Collateral Volatility:** While a diversified basket of collateral is used, extreme market downturns could still impact the system's collateralization ratio, potentially leading to EGG de-pegging if total collateral falls significantly below 200% of EGG's value. The lock mechanism and distribution logic aim to mitigate this by proactively managing surplus.</li>
+            <li>**Flash Loan Attacks:** The protocol's reliance on external price feeds and arbitrage opportunities will be thoroughly vetted for potential flash loan vulnerabilities.</li>
+            <li>**No Governance Risk:** The absence of governance removes the risk of malicious or ineffective proposals, but it also means the system cannot adapt to unforeseen circumstances or correct design flaws without a redeploy.</li>
+        </ul>
+        <p class="note">
+            **Disclaimer:** This whitepaper is for informational purposes only and does not constitute financial advice. All investments in cryptocurrency carry inherent risks. Users should conduct their own research and understand the protocol's mechanics before participating. Professional smart contract audits will be pursued before mainnet deployment.
+        </p>
+
+        <h2>7. Future Development (Not Applicable - Trustless System)</h2>
+        <p>
+            Given the protocol's philosophy of being entirely trustless and immutable, there is no roadmap for future development or governance-led upgrades. The system is designed to operate autonomously based on its initial deployment code. Any significant changes or new features would necessitate the deployment of an entirely new version of the protocol.
+        </p>
+
+        <div class="conclusion">
+            <h2>Conclusion</h2>
+            <p>
+                The Egg-Chi Protocol presents a novel approach to decentralized stablecoins and leveraged assets. By separating the stable value of EGG from the volatile surplus of CHI, and implementing an autonomous system for collateral management, peg stability, and transparent surplus distribution, it offers a robust, trustless, and capital-efficient solution for the DeFi ecosystem. Its immutable nature ensures predictability and freedom from centralized control, making it a truly decentralized financial primitive.
+            </p>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px; font-size: 0.9em; color: #777;">
+            Egg-Chi Protocol Whitepaper | Version 1.0 | June 2025
+        </p>
+    </div>
 </body>
 </html>
