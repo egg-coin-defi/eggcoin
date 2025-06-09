@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egg-Chi Protocol: Technical Whitepaper (V 1.0)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        strong {
+            color: #e74c3c;
+        }
+        .note {
+            background-color: #ecf0f1;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .status-resolved {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .status-pending {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        .status-conceptual {
+            color: #8e44ad;
+            font-weight: bold;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Egg-Chi Protocol: Technical Whitepaper (V 1.0)</h1>
+        <p><strong>Author:</strong> Gemini AI & User<br>
+        <strong>Date:</strong> June 10, 2025</p>
+
+        <p>This technical document outlines the core architecture and mechanisms of the Egg-Chi protocol, a decentralized, human-governance-free system designed to offer a highly resilient stablecoin (EGG$) and a utility/volatility token (CHI) on the BNB Smart Chain (BSC).</p>
+
+        <h2>1. Protocol Overview</h2>
+        <p>The Egg-Chi protocol is built on a decentralized and algorithmic architecture, requiring no human governance or central authority. Its primary goal is to maintain the EGG$ ($1 USD) peg stability through a diversified collateral pool and automated rebalancing mechanisms, while CHI acts as a volatile token that absorbs market shocks and provides leveraged exposure to the pool's value.</p>
+
+        <h2>2. Key Components</h2>
+        <h3>2.1 EGG$ (Stablecoin)</h3>
+        <ul>
+            <li><strong>Objective:</strong> To maintain a stable 1:1 peg with the US dollar.</li>
+            <li><strong>Collateral:</strong> Fully collateralized by a basket of liquid and diversified cryptocurrencies.</li>
+        </ul>
+
+        <h3>2.2 CHI (Volatile Token)</h3>
+        <ul>
+            <li><strong>Objective:</strong> To absorb the volatility of the collateral pool, acting as a "shock absorber" for EGG$.</li>
+            <li><strong>Leveraged Exposure:</strong> CHI represents the collateral surplus in the pool relative to the EGG$ supply. Consequently, its performance is leveraged against the price movements of the underlying collateral.</li>
+        </ul>
+
+        <h2>3. Collateral Pool</h2>
+        <p>The collateral pool consists of a selected basket of high-liquidity cryptocurrencies on the BNB Smart Chain, chosen to facilitate direct and efficient swaps on DEXs.</p>
+        <ul>
+            <li><strong>Included Cryptocurrencies:</strong>
+                <ul>
+                    <li><strong>WBTC:</strong> Wrapped Bitcoin</li>
+                    <li><strong>WETH:</strong> Wrapped Ethereum</li>
+                    <li><strong>BNB:</strong> Binance Coin</li>
+                    <li><strong>SOL.b:</strong> Wrapped Solana (Binance-pegged)</li>
+                    <li><strong>ADA.e:</strong> Wrapped Cardano (Binance-pegged)</li>
+                </ul>
+            </li>
+            <li><strong>Percentage Ranges and Ideal Targets:</strong> Each cryptocurrency in the pool has a defined percentage range, allowing the pool to become imbalanced within certain limits before triggering active rebalancing. The value in parentheses indicates the ideal target percentage for balancing.
+                <ul>
+                    <li><strong>WBTC:</strong> 25% / 40% (Target: 35%)</li>
+                    <li><strong>WETH:</strong> 15% / 35% (Target: 25%)</li>
+                    <li><strong>BNB:</strong> 15% / 30% (Target: 20%)</li>
+                    <li><strong>SOL.b:</strong> 5% / 15% (Target: 10%)</li>
+                    <li><strong>ADA.e:</strong> 5% / 15% (Target: 10%)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>4. Pool Interaction Mechanisms</h2>
+
+        <h3>4.1 Minting EGG$/CHI</h3>
+        <p><strong>Status:</strong> <span class="status-resolved">Resolved</span></p>
+        <ul>
+            <li><strong>Method:</strong> Users can mint by depositing a <strong>single cryptocurrency</strong> from the pool.</li>
+            <li><strong>No Immediate Rebalancing:</strong> The system **does not perform immediate swaps** upon deposit to balance the pool. The deposited collateral adds to the pool, and the pool can naturally become imbalanced within predefined ranges.</li>
+            <li><strong>Fee:</strong> A **0.3% fee** is applied to the value of the deposited collateral. This fee is used for the CHI Buyback & Burn mechanism (see Section 5.2).</li>
+        </ul>
+
+        <h3>4.2 Redeeming EGG$/CHI</h3>
+        <p><strong>Status:</strong> <span class="status-resolved">Resolved</span></p>
+        <ul>
+            <li><strong>Method:</strong> Users can redeem their EGG$/CHI pairs in exchange for assets from the pool.</li>
+            <li><strong>Passive Rebalancing:</strong> During redemption, the system prioritizes disbursing pool assets that are in **excess** or are closer to the upper limit of their range. This passively contributes to pool balancing, reducing the need for active swaps.</li>
+            <li><strong>Fee:</strong> A **0.3% fee** is applied to the value of the redeemed assets. This fee is used for the CHI Buyback & Burn mechanism (see Section 5.2).</li>
+        </ul>
+
+        <h2>5. Rebalancing and Peg Stability Mechanisms</h2>
+
+        <h3>5.1 Active Pool Rebalancing (`performRebalance()`)</h3>
+        <p><strong>Status:</strong> <span class="status-resolved">Resolved</span></p>
+        <p>This mechanism triggers on-chain swaps to bring the pool back to its target percentages when significant imbalances occur.</p>
+        <ul>
+            <li><strong>Trigger:</strong> The `performRebalance()` function, which is public and callable by **anyone**, will activate only if **at least two cryptocurrencies** in the pool are outside their defined percentage ranges.</li>
+            <li><strong>Incremental Rebalancing:</strong> The swap will be executed for only **1/10th of the amount needed** to realign the pool. If, after this step, at least one crypto falls back into its range, further realignments will not be allowed at that time, to manage gas costs and volatility.</li>
+            <li><strong>Maximum Slippage:</strong> Each swap executed for rebalancing will include a maximum slippage tolerance of **2%**. If slippage exceeds this threshold, the swap will fail.</li>
+            <li><strong>Multi-DEX Strategy:</strong> For liquidity and resilience, the contract will attempt swaps on a **whitelist of trusted DEX routers** (e.g., PancakeSwap, ApeSwap, Biswap) in **sequence**. If the primary DEX fails the swap, the contract will automatically attempt the next one on the list. The entire transaction will only fail if all DEXs cannot complete the swap within acceptable slippage.</li>
+            <li><strong>Caller Reward:</strong> If the rebalancing operation is successful, the caller (the one who initiated the transaction) will receive a fixed reward of **$5 USD in EGG$**. This covers gas costs and incentivizes pool maintenance. The exact reward value will be calibrated after extensive testing.</li>
+        </ul>
+
+        <h3>5.2 CHI Value Accrual and Buyback & Burn</h3>
+        <p><strong>Status:</strong> <span class="status-resolved">Resolved</span></p>
+        <p>In addition to its intrinsic leveraged exposure to collateral surplus, CHI accrues value through deflation.</p>
+        <ul>
+            <li><strong>Fee Source:</strong> The **0.3%** fees collected from minting and redeeming accumulate in a specific contract balance.</li>
+            <li><strong>Buyback & Burn Mechanism:</strong> A public `buybackAndBurnCHI()` function (callable by anyone when accumulated fees reach a threshold) will use these fees to **purchase CHI from the market** (via DEXs) and immediately burn them.</li>
+            <li><strong>Benefit for CHI:</strong> Reducing the supply of CHI through burning creates scarcity and, with constant or increasing demand, increases the value of each individual CHI token.</li>
+        </ul>
+
+        <h3>5.3 EGG$ Peg Stability and Under-collateralization Management</h3>
+        <p><strong>Status:</strong> <span class="status-conceptual">Conceptually Resolved, Requires Refinement</span></p>
+        <p>A two-tier strategy to protect the EGG$ peg under extreme market conditions.</p>
+        <ol>
+            <li><strong>Level 1: CHI Value Protection (CHI Reserve Burn)</strong>
+                <ul>
+                    <li><strong>Trigger:</strong> If the **Collateral Ratio (CR)** falls below a warning threshold (e.g., **120%**), indicating that the CHI buffer is eroding.</li>
+                    <li><strong>Action:</strong> The protocol will use a portion of its **CHI reserve** (built in times of prosperity by allocating a percentage of dividends/surplus) to burn these CHI tokens.</li>
+                    <li><strong>Objective:</strong> To reduce the supply of CHI to support its price, acting as a first shock absorber without directly impacting the EGG$ peg.</li>
+                </ul>
+            </li>
+            <li><strong>Level 2: EGG$ Peg Protection (Forced Deleveraging with EGG$ Burn)</strong>
+                <ul>
+                    <li><strong>Trigger:</strong> If the **CR** falls further below a critical threshold (e.g., **105%**), signaling an imminent risk to the EGG$ peg.</li>
+                    <li><strong>Action:</strong> A public function (`performForcedDeleveraging()`, callable by anyone) will mint and sell new CHI (or use remaining CHI from the reserve, if necessary) to **repurchase EGG$ from the market** and burn them.</li>
+                    <li><strong>Objective:</strong> To reduce the EGG$ supply to re-establish its $1 peg. The cost falls on CHI holders, who absorb the loss of value.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>6. Oracle Resilience</h2>
+        <p><strong>Status:</strong> <span class="status-resolved">Resolved</span></p>
+        <p>The system relies on Chainlink Price Feeds for collateral asset prices and EGG$.</p>
+        <ul>
+            <li><strong>Provider:</strong> Chainlink Price Feeds (industry standard for decentralization and reliability).</li>
+            <li><strong>Rigorous On-Chain Checks:</strong> Every time a price from an oracle is requested for a critical operation, the contract will perform automatic checks:
+                <ul>
+                    <li>Verify that the price is **positive**.</li>
+                    <li>Verify that the data is not **"stale"** (outdated), by checking the timestamp of the last update (e.g., maximum 5 minutes delay).</li>
+                </ul>
+            </li>
+            <li><strong>Fail-Safe:</strong> If any of these checks fail, the operation that requested the price (minting, redeeming, rebalancing, etc.) will **revert** to prevent actions based on unreliable data. The system prefers to halt safely rather than risk losses.</li>
+        </ul>
+
+        <h2>7. Emergency Mechanisms: Conditional Pause</h2>
+        <p><strong>Status:</strong> <span class="status-conceptual">Conceptually Resolved, Requires Refinement</span></p>
+        <p>In the absence of human governance, an automatic pause mechanism is essential to mitigate catastrophic risks.</p>
+        <ul>
+            <li><strong>Suspendable Functions:</strong> `mint()`, `redeem()`, `performRebalance()`, `performForcedDeleveraging()`, `buybackAndBurnCHI()`.</li>
+            <li><strong>Pause Activation:</strong> A public function (`activateEmergencyPause()`, callable by anyone) will pause the protocol **only if** extremely severe and on-chain verifiable crisis conditions occur:
+                <ul>
+                    <li>EGG$ peg severely broken (e.g., price below $0.85 for a prolonged period, verified across multiple oracles/pools).</li>
+                    <li>Critical unmanageable under-collateralization (CR below 90%).</li>
+                    <li>Widespread and prolonged failure of collateral oracles (e.g., 3+ oracles stale for 30+ minutes).</li>
+                </ul>
+            </li>
+            <li><strong>Pause Deactivation:</strong> A public function (`deactivateEmergencyPause()`, callable by anyone) will **deactivate the pause only if and only if all** crisis conditions have resolved and have been maintained for a prolonged period (e.g., EGG$ peg above $0.98, CR above 110%, all oracles functioning).</li>
+            <li><strong>Nature:</strong> This mechanism is **algorithmic, temporary, and reversible**, allowing the protocol to recover from a crisis without being permanently "killed."</li>
+            <li><strong>Implementation Note:</strong> The precise logic of thresholds, time delays, and cross-checks for activation and deactivation will require extremely meticulous study and testing to ensure security and prevent unintended locks or premature re-activations.</li>
+        </ul>
+
+        <h2>8. General Architectural Considerations</h2>
+        <ul>
+            <li><strong>Decentralization:</strong> The protocol is designed to operate without any human governance authority or multisig post-deployment. All critical operations are based on on-chain logic and permissionless economic incentives.</li>
+            <li><strong>Immutability:</strong> Once deployed, the contract will be largely immutable, in line with the "no governance" philosophy. Critical parameters (like DEX addresses, CR thresholds) are hardcoded or set to be extremely difficult/impossible to modify without a new deployment (unless extremely limited and transparent upgrade mechanisms, not yet detailed, are included).</li>
+            <li><strong>Security:</strong> Emphasis is placed on the robustness of on-chain logic, slippage management, oracle resilience, and automatic emergency mechanisms to protect users and the protocol.</li>
+        </ul>
+
+        <div class="note">
+            <h3>Next Steps (for Development)</h3>
+            <ul>
+                <li>Exact definition of numerical thresholds and time delays for the Emergency Pause.</li>
+                <li>Thorough development and testing of Solidity contracts on a testnet.</li>
+                <li>Independent security audits.</li>
+                <li>Definition of initial capitalization details and protocol launch.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
