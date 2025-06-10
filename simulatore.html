@@ -411,19 +411,19 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">CHI Price</div>
-                        <div class="stat-value chi-value" id="chi-price">$0.35</div>
+                        <div class="stat-value chi-value" id="chi-price">$1.15</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Collateral Ratio</div>
-                        <div class="stat-value" id="cr-value">142.3%</div>
+                        <div class="stat-value" id="cr-value">215,2%</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">EGG$ Total Supply</div>
-                        <div class="stat-value egg-value" id="egg-supply">1,245,320</div>
+                        <div class="stat-value egg-value" id="egg-supply">1,005,320</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">CHI Total Supply</div>
-                        <div class="stat-value chi-value" id="chi-supply">245,780</div>
+                        <div class="stat-value chi-value" id="chi-supply">1,006,120</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Fees Accumulated</div>
@@ -613,19 +613,19 @@
         // Global simulator state
         let protocolState = {
             eggPrice: 1.00, // EGG$ is stable, so price is fixed
-            chiPrice: 0.35, // Simulated CHI price
-            cr: 142.3,
+            chiPrice: 1.25, // Simulated CHI price
+            cr: 125.3,
             eggSupply: 1245320,
-            chiSupply: 245780,
+            chiSupply: 1255320,
             feesAccumulated: 5320,
             chiReserve: 25000,
             isPaused: false,
             assetPrices: { // Fallback simulated collateral asset prices in USD
-                "WBTC": 60000,
-                "WETH": 3500,
-                "WBNB": 550,
-                "ADA": 0.4,
-                "SOL": 150
+                "WBTC": 108000,
+                "WETH": 2700,
+                "WBNB": 650,
+                "ADA": 0.8,
+                "SOL": 180
             },
             collateralAssets: { // Balance and weight of collateral assets
                 "WBTC": { name: "Wrapped Bitcoin", amount: 18.5, weight: 32.1, target: 35, icon: "fab fa-bitcoin", coingeckoId: "wrapped-bitcoin" },
