@@ -86,8 +86,7 @@
             <li>**Solana (SOL)**</li>
             <li>**BNB (BNB)**</li>
             <li>**Cardano (ADA)**</li>
-            <li>**Dogecoin (DOGE)**</li>
-            <li>**TRON (TRX)**</li>
+            
         </ul>
         <p class="note">
             **Note:** The exact implementation for handling multiple collateral assets, including their weighting and rebalancing, is managed internally by the `EggChiSystem`'s collateral management logic (e.g., `_rebalancePool`). Price feeds for each accepted collateral asset are crucial for accurate valuation.
@@ -98,7 +97,7 @@
             Accurate and reliable price data for the underlying collateral assets is paramount. The Egg-Chi Protocol integrates with Chainlink Price Feeds, a decentralized oracle network, to obtain real-time, tamper-proof market data.
         </p>
         <p>
-            For each accepted collateral asset (BTC, ETH, SOL, BNB, ADA, DOGE, TRX), a dedicated Chainlink `AggregatorV3Interface` instance will be utilized. This ensures that all valuations within the `EggChiSystem` (e.g., `getTokenValueUSD()`, `getTokenAmountForUSD()`, and especially `getChiPrice()`) are based on robust and decentralized data.
+            For each accepted collateral asset (BTC, ETH, SOL, BNB, ADA, ), a dedicated Chainlink `AggregatorV3Interface` instance will be utilized. This ensures that all valuations within the `EggChiSystem` (e.g., `getTokenValueUSD()`, `getTokenAmountForUSD()`, and especially `getChiPrice()`) are based on robust and decentralized data.
         </p>
 
         <h3>4.3. Operations Lock Mechanism</h3>
