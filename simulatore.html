@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Egg-Chi Protocol Simulator</title>
     <style>
-        :root {
+       
+     
+    
+      :root {
             --primary: #4a6fa5;
             --secondary: #6b8cae;
             --accent: #ff6b6b;
@@ -18,14 +20,14 @@
             --egg-color: #ffd700;
             --chi-color: #ff6b6b;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background: linear-gradient(135deg, #1a2a6c, #2c3e50);
             color: var(--light);
@@ -33,12 +35,12 @@
             padding: 20px;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         header {
             text-align: center;
             padding: 20px 0;
@@ -47,28 +49,28 @@
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
-        
+
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
             color: var(--egg-color);
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
-        
+
         .subtitle {
             font-size: 1.2rem;
             color: #ccc;
             max-width: 800px;
             margin: 0 auto;
         }
-        
+
         .dashboard {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 25px;
             margin-bottom: 30px;
         }
-        
+
         .panel {
             background: rgba(30, 40, 60, 0.8);
             border-radius: 15px;
@@ -76,11 +78,11 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease;
         }
-        
+
         .panel:hover {
             transform: translateY(-5px);
         }
-        
+
         .panel-header {
             display: flex;
             justify-content: space-between;
@@ -89,20 +91,20 @@
             padding-bottom: 15px;
             border-bottom: 2px solid var(--primary);
         }
-        
+
         .panel-title {
             font-size: 1.4rem;
             font-weight: 600;
             color: var(--egg-color);
         }
-        
+
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
-        
+
         .stat-card {
             background: rgba(50, 60, 80, 0.6);
             border-radius: 10px;
@@ -110,46 +112,46 @@
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .stat-card:hover {
             background: rgba(60, 70, 90, 0.8);
             transform: scale(1.03);
         }
-        
+
         .stat-label {
             font-size: 0.9rem;
             color: #aaa;
             margin-bottom: 8px;
         }
-        
+
         .stat-value {
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--light);
         }
-        
+
         .egg-value {
             color: var(--egg-color);
         }
-        
+
         .chi-value {
             color: var(--chi-color);
         }
-        
+
         .actions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
         }
-        
+
         .action-card {
             background: rgba(40, 50, 70, 0.8);
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
         .action-title {
             font-size: 1.2rem;
             margin-bottom: 15px;
@@ -158,21 +160,21 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .action-title i {
             font-size: 1.4rem;
         }
-        
+
         .input-group {
             margin-bottom: 15px;
         }
-        
+
         label {
             display: block;
             margin-bottom: 8px;
             color: #ccc;
         }
-        
+
         select, input {
             width: 100%;
             padding: 12px;
@@ -192,7 +194,7 @@
         input[type="number"] {
             -moz-appearance: textfield;
         }
-        
+
         button {
             width: 100%;
             padding: 14px;
@@ -206,57 +208,57 @@
             transition: all 0.3s ease;
             margin-top: 10px;
         }
-        
+
         button:hover {
             background: var(--secondary);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-        
+
         .btn-mint {
             background: var(--success);
         }
-        
+
         .btn-redeem {
             background: var(--warning);
             color: var(--dark);
         }
-        
+
         .btn-rebalance {
             background: var(--info);
         }
-        
+
         .btn-buyback {
             background: var(--chi-color);
         }
-        
+
         .btn-emergency {
             background: var(--danger);
         }
-        
+
         .btn-level1 {
             background: linear-gradient(to right, var(--warning), var(--danger));
         }
-        
+
         .btn-level2 {
             background: linear-gradient(to right, var(--danger), #8b0000);
         }
-        
+
         .assets-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
         }
-        
+
         .asset-card {
             background: rgba(40, 50, 70, 0.8);
             border-radius: 10px;
             padding: 15px;
-            text-align: center;
             position: relative;
             overflow: hidden;
+            cursor: help;
         }
-        
+
         .asset-card::before {
             content: '';
             position: absolute;
@@ -266,24 +268,24 @@
             height: 5px;
             background: var(--primary);
         }
-        
+
         .asset-icon {
             font-size: 2.5rem;
             margin-bottom: 10px;
         }
-        
+
         .asset-name {
             font-size: 1.1rem;
             margin-bottom: 5px;
             color: var(--light);
         }
-        
+
         .asset-balance {
             font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: 5px;
         }
-        
+
         .asset-price {
             font-size: 0.9rem;
             color: #ccc;
@@ -294,7 +296,7 @@
             font-size: 0.9rem;
             color: #aaa;
         }
-        
+
         .progress-container {
             margin-top: 10px;
             background: rgba(0, 0, 0, 0.3);
@@ -302,629 +304,597 @@
             height: 10px;
             overflow: hidden;
         }
-        
+
         .progress-bar {
             height: 100%;
             background: var(--primary);
             border-radius: 10px;
+            transition: width 0.3s ease;
         }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
+
+        /* Tooltip */
+        .tooltip {
+            visibility: hidden;
+            width: 220px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-        
-        .status-active {
-            background: var(--success);
-            box-shadow: 0 0 8px var(--success);
+
+        .asset-card:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
         }
-        
-        .status-paused {
-            background: var(--danger);
-            box-shadow: 0 0 8px var(--danger);
-        }
-        
+
         .logs-panel {
             grid-column: 1 / -1;
             max-height: 300px;
             overflow-y: auto;
         }
-        
+
         .log-entry {
             padding: 12px;
             border-bottom: 1px solid #444;
             font-size: 0.9rem;
         }
-        
+
         .log-entry:last-child {
             border-bottom: none;
         }
-        
+
         .log-timestamp {
             color: #aaa;
             font-size: 0.8rem;
             margin-right: 10px;
         }
-        
+
         .log-mint {
             color: var(--success);
         }
-        
+
         .log-redeem {
             color: var(--warning);
         }
-        
+
         .log-rebalance {
             color: var(--info);
         }
-        
+
         .log-buyback {
             color: var(--chi-color);
         }
-        
+
         .log-emergency {
             color: var(--danger);
         }
-        
-        @media (max-width: 1200px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .actions-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-egg"></i> Egg-Chi Protocol Simulator</h1>
-            <p class="subtitle">Simulate the DeFi protocol's operations with the stable token EGG$ and volatile token CHI</p>
-        </header>
-        
-        <div class="dashboard">
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Protocol State</h2>
-                    <div class="protocol-status">
-                        <span class="status-indicator status-active" id="status-indicator"></span>
-                        <span id="status-text">Active</span>
-                    </div>
-                </div>
-                
-                <div class="stats-container">
-                    <div class="stat-card">
-                        <div class="stat-label">EGG$ Price</div>
-                        <div class="stat-value egg-value" id="egg-price">$1.00</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">CHI Price</div>
-                        <div class="stat-value chi-value" id="chi-price">$1.15</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Collateral Ratio</div>
-                        <div class="stat-value" id="cr-value">215,2%</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">EGG$ Total Supply</div>
-                        <div class="stat-value egg-value" id="egg-supply">1,005,320</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">CHI Total Supply</div>
-                        <div class="stat-value chi-value" id="chi-supply">1,006,120</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Fees Accumulated</div>
-                        <div class="stat-value" id="fees-value">5,320 BUSD</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">CHI Reserve</div>
-                        <div class="stat-value chi-value" id="reserve-value">25,000</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Last Rebalance</div>
-                        <div class="stat-value" id="rebalance-value">2 days ago</div>
-                    </div>
-                </div>
-                
-                <h3 style="margin: 20px 0 15px; color: var(--info);">Collateral Assets</h3>
-                <div class="assets-container" id="collateral-assets-display">
-                    </div>
-            </div>
-            
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Protocol Actions</h2>
-                    <div class="protocol-actions">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                </div>
-                
-                <div class="actions-grid">
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-plus-circle"></i> Mint EGG$ & CHI</h3>
-                        <div class="input-group">
-                            <label for="mint-asset">Collateral Asset</label>
-                            <select id="mint-asset">
-                                <option value="WBTC">WBTC</option>
-                                <option value="WETH">WETH</option>
-                                <option value="WBNB">WBNB</option>
-                                <option value="ADA">ADA.e</option>
-                                <option value="SOL">SOL.b</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="mint-amount">Amount</label>
-                            <input type="number" id="mint-amount" min="0" step="0.1" placeholder="e.g. 1.0">
-                        </div>
-                        <div class="input-group" id="mint-preview" style="display: none;">
-                            <label>You would receive (estimated):</label>
-                            <p class="egg-value"><span id="preview-egg">0</span> EGG$</p>
-                            <p class="chi-value"><span id="preview-chi">0</span> CHI</p>
-                        </div>
-                        <button class="btn-mint" id="btn-mint-preview">Calculate Mint</button>
-                        <button class="btn-mint" id="btn-mint-confirm" style="display: none;">Confirm Mint</button>
-                    </div>
-                    
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-minus-circle"></i> Redeem Collateral</h3>
-                        <div class="input-group">
-                            <label for="redeem-input-amount">Amount of EGG$ or CHI to redeem</label>
-                            <input type="number" id="redeem-input-amount" min="0" placeholder="e.g. 1000">
-                        </div>
-                        <div class="input-group" id="redeem-preview" style="display: none;">
-                            <label>Redeem will require:</label>
-                            <p class="egg-value"><span id="redeem-preview-egg">0</span> EGG$</p>
-                            <p class="chi-value"><span id="redeem-preview-chi">0</span> CHI</p>
-                            <label style="margin-top: 10px;">You would receive (estimated):</label>
-                            <p class="redeem-asset-output"><span id="redeem-output-amount">0</span> <span id="redeem-output-asset"></span></p>
-                        </div>
-                        <button class="btn-redeem" id="btn-redeem-preview">Calculate Redeem</button>
-                        <button class="btn-redeem" id="btn-redeem-confirm" style="display: none;">Confirm Redeem</button>
-                    </div>
-                    
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-balance-scale"></i> Rebalance</h3>
-                        <p>Rebalance the collateral pool when assets are outside target ranges.</p>
-                        <div class="input-group">
-                            <label>Out-of-range asset: <span class="chi-value">SOL.b (13.1%)</span></label>
-                        </div>
-                        <div class="input-group">
-                            <label>Incremental rebalance (1/10): <span class="egg-value">$12,450</span></label>
-                        </div>
-                        <button class="btn-rebalance">Execute Rebalance</button>
-                    </div>
-                    
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-fire"></i> Buyback & Burn CHI</h3>
-                        <p>Use accumulated fees to buy and burn CHI.</p>
-                        <div class="input-group">
-                            <label>Available Fees: <span class="egg-value">5,320 BUSD</span></label>
-                        </div>
-                        <div class="input-group">
-                            <label>Estimated CHI to burn: <span class="chi-value">~1,240</span></label>
-                        </div>
-                        <button class="btn-buyback">Execute Buyback & Burn</button>
-                    </div>
-                    
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-shield-alt"></i> Level 1: Burn CHI Reserve</h3>
-                        <p>Activates when Collateral Ratio drops below 120%.</p>
-                        <div class="input-group">
-                            <label>Current CHI Reserve: <span class="chi-value">25,000</span></label>
-                        </div>
-                        <div class="input-group">
-                            <label>Amount to burn: <span class="chi-value">1,250 (5%)</span></label>
-                        </div>
-                        <button class="btn-level1">Activate Level 1</button>
-                    </div>
-                    
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-exclamation-triangle"></i> Level 2: Forced Deleveraging</h3>
-                        <p>Activates when Collateral Ratio drops below 105%.</p>
-                        <div class="input-group">
-                            <label>CHI to mint and sell: <span class="chi-value">8,500</span></label>
-                        </div>
-                        <div class="input-group">
-                            <label>EGG$ to buy and burn: <span class="egg-value">12,300</span></label>
-                        </div>
-                        <button class="btn-level2">Activate Level 2</button>
-                    </div>
-                    
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-pause-circle"></i> Emergency Pause</h3>
-                        <p>Activates when EGG$ peg drops below $0.85 or CR below 90%.</p>
-                        <div class="input-group">
-                            <label>Current EGG$ price: <span class="egg-value" id="emergency-egg-price">$0.97</span></label>
-                        </div>
-                        <div class="input-group">
-                            <label>Current CR: <span class="egg-value" id="emergency-cr">142.3%</span></label>
-                        </div>
-                        <button class="btn-emergency" id="btn-emergency-pause">Activate Emergency Pause</button>
-                    </div>
-                    
-                    <div class="action-card">
-                        <h3 class="action-title"><i class="fas fa-play-circle"></i> Restore Protocol</h3>
-                        <p>Deactivates pause when emergency conditions are resolved.</p>
-                        <div class="input-group">
-                            <label>Grace Period: <span class="egg-value">1 hour</span></label>
-                        </div>
-                        <div class="input-group">
-                            <label>Oracle Status: <span class="success">All Active</span></label>
-                        </div>
-                        <button class="btn-emergency" id="btn-protocol-restore" style="background: var(--success);">Restore Protocol</button>
-                    </div>
+<div class="container">
+
+    <header>
+        <h1><i class="fas fa-egg"></i> Egg-Chi Protocol Simulator</h1>
+        <p class="subtitle">Simulate the DeFi protocol's operations with EGG$ and CHI tokens backed by real crypto collateral</p>
+    </header>
+
+    <div class="dashboard">
+
+        <!-- Protocol State Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Protocol State</h2>
+                <div class="protocol-status">
+                    <span class="status-indicator status-active" id="status-indicator"></span>
+                    <span id="status-text">Active</span>
                 </div>
             </div>
-            
-            <div class="panel logs-panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Event & Transaction Logs</h2>
-                    <div><i class="fas fa-history"></i></div>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-label">EGG$ Price</div>
+                    <div class="stat-value egg-value" id="egg-price">$1.00</div>
                 </div>
-                
-                <div id="logs-container">
-                    <div class="log-entry">
-                        <span class="log-timestamp">[12:45:23]</span>
-                        <span class="log-rebalance"><i class="fas fa-balance-scale"></i> Rebalance executed: Sold 1.2 SOL.b for 0.8 WBTC</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-timestamp">[12:32:10]</span>
-                        <span class="log-mint"><i class="fas fa-plus-circle"></i> Mint executed: 2.5 WETH → 8,200 EGG$ and 820 CHI</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-timestamp">[11:58:41]</span>
-                        <span class="log-redeem"><i class="fas fa-minus-circle"></i> Redeem executed: 5,000 EGG$ and 1,200 CHI → 1.8 WBTC</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-timestamp">[10:15:33]</span>
-                        <span class="log-buyback"><i class="fas fa-fire"></i> Buyback completed: 1,240 CHI burned using 5,320 BUSD</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-timestamp">[09:42:11]</span>
-                        <span class="log-mint"><i class="fas fa-plus-circle"></i> Mint executed: 15,000 ADA.e → 3,200 EGG$ and 320 CHI</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-timestamp">[09:22:05]</span>
-                        <span class="log-rebalance"><i class="fas fa-balance-scale"></i> Rebalance executed: Sold 0.5 WBTC for 12.3 WETH</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-timestamp">[08:45:19]</span>
-                        <span class="log-redeem"><i class="fas fa-minus-circle"></i> Redeem executed: 8,000 EGG$ and 2,100 CHI → 42.5 WBNB</span>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-label">CHI Price</div>
+                    <div class="stat-value chi-value" id="chi-price">$1.00</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-label">Collateral Ratio</div>
+                    <div class="stat-value" id="cr-value">0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">EGG$ Total Supply</div>
+                    <div class="stat-value egg-value" id="egg-supply">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">CHI Total Supply</div>
+                    <div class="stat-value chi-value" id="chi-supply">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Fees Accumulated</div>
+                    <div class="stat-value" id="fees-value">0 BUSD</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">CHI Reserve</div>
+                    <div class="stat-value chi-value" id="reserve-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Last Rebalance</div>
+                    <div class="stat-value" id="rebalance-value">Never</div>
+                </div>
+            </div>
+            <h3 style="margin: 20px 0 15px; color: var(--info);">Collateral Assets</h3>
+            <div class="assets-container" id="collateral-assets-display"></div>
+        </div>
+
+        <!-- Mint Section -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Protocol Actions</h2>
+                <div class="protocol-actions"><i class="fas fa-sync-alt"></i></div>
+            </div>
+            <div class="actions-grid">
+
+                <!-- Mint Section -->
+                <div class="action-card">
+                    <h3 class="action-title"><i class="fas fa-plus-circle"></i> Mint EGG$ & CHI</h3>
+                    <div class="input-group">
+                        <label for="mint-asset">Collateral Asset</label>
+                        <select id="mint-asset">
+                            <option value="WBTC">WBTC</option>
+                            <option value="WETH">WETH</option>
+                            <option value="WBNB">WBNB</option>
+                            <option value="ADA">ADA.e</option>
+                            <option value="SOL">SOL.b</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="mint-amount">Amount</label>
+                        <input type="number" id="mint-amount" step="any" placeholder="e.g. 1 BTC" />
+                    </div>
+                    <div id="mint-preview" style="display: none;">
+                        <p>You will receive:</p>
+                        <p class="egg-value">EGG$: <span id="preview-egg"></span></p>
+                        <p class="chi-value">CHI: <span id="preview-chi"></span></p>
+                    </div>
+                    <button class="btn-mint" id="btn-mint-preview">Calculate Mint</button>
+                    <button class="btn-mint" id="btn-mint-confirm" style="display: none;">Confirm Mint</button>
+                </div>
+
+                <!-- Redeem Section -->
+                <div class="action-card">
+                    <h3 class="action-title"><i class="fas fa-minus-circle"></i> Redeem Collateral</h3>
+                    <div class="input-group">
+                        <label for="redeem-input-amount">Amount of EGG$ to Redeem</label>
+                        <input type="number" id="redeem-input-amount" placeholder="e.g. 1000" />
+                    </div>
+                    <div id="redeem-preview" style="display: none;">
+                        <p>You must provide:</p>
+                        <p class="egg-value">EGG$: <span id="redeem-preview-egg"></span></p>
+                        <p class="chi-value">CHI: <span id="redeem-preview-chi"></span></p>
+                        <p>You will receive: <strong><span id="redeem-output"></span></strong></p>
+                    </div>
+                    <button class="btn-redeem" id="btn-redeem-preview">Calculate Redeem</button>
+                    <button class="btn-redeem" id="btn-redeem-confirm" style="display: none;">Confirm Redeem</button>
+                </div>
+
+                <!-- Auto Rebalance Section -->
+                <div class="action-card">
+                    <h3 class="action-title"><i class="fas fa-balance-scale"></i> Auto Rebalance</h3>
+                    <p>Rebalance the collateral pool when assets are outside target ranges.</p>
+                    <div class="input-group">
+                        <label>Out-of-range asset: <span class="chi-value" id="auto-rebalance-asset">None</span></label>
+                    </div>
+                    <button class="btn-rebalance" onclick="executeAutoRebalance()">Execute Rebalance</button>
+                </div>
+
+                <!-- Buyback CHI Section -->
+                <div class="action-card">
+                    <h3 class="action-title"><i class="fas fa-fire"></i> Buyback & Burn CHI</h3>
+                    <p>Use accumulated fees to buy and burn CHI.</p>
+                    <div class="input-group">
+                        <label>Available Fees: <span class="egg-value" id="available-fees">0 BUSD</span></label>
+                    </div>
+                    <div class="input-group">
+                        <label>Estimated CHI to burn: <span class="chi-value" id="chi-to-burn">~0</span></label>
+                    </div>
+                    <button class="btn-buyback" onclick="buybackChi()">Execute Buyback & Burn</button>
+                </div>
+
+                <!-- Level 1 Emergency -->
+                <div class="action-card">
+                    <h3 class="action-title"><i class="fas fa-shield-alt"></i> Level 1: Burn CHI Reserve</h3>
+                    <p>Activates when Collateral Ratio drops below 120%.</p>
+                    <div class="input-group">
+                        <label>Current CHI Reserve: <span class="chi-value" id="chi-reserve-sim">25,000</span></label>
+                    </div>
+                    <div class="input-group">
+                        <label>Amount to burn: <span class="chi-value" id="chi-burn-sim">1,250 (5%)</span></label>
+                    </div>
+                    <button class="btn-level1" onclick="burnChiReserve()">Activate Level 1</button>
+                </div>
+
+                <!-- Level 2 Emergency -->
+                <div class="action-card">
+                    <h3 class="action-title"><i class="fas fa-exclamation-triangle"></i> Level 2: Forced Deleveraging</h3>
+                    <p>Activates when Collateral Ratio drops below 105%.</p>
+                    <div class="input-group">
+                        <label>CHI to mint and sell: <span class="chi-value" id="chi-forced-mint">8,500</span></label>
+                    </div>
+                    <div class="input-group">
+                        <label>EGG$ to buy and burn: <span class="egg-value" id="egg-burned">12,300</span></label>
+                    </div>
+                    <button class="btn-level2" onclick="forcedDeleveraging()">Activate Level 2</button>
+                </div>
+
+                <!-- Emergency Pause -->
+                <div class="action-card">
+                    <h3 class="action-title"><i class="fas fa-pause-circle"></i> Emergency Pause</h3>
+                    <p>Activates when EGG$ peg drops below $0.85 or CR below 90%.</p>
+                    <div class="input-group">
+                        <label>Current EGG$ price: <span class="egg-value" id="emergency-egg-price">$1.00</span></label>
+                    </div>
+                    <div class="input-group">
+                        <label>Current CR: <span class="egg-value" id="emergency-cr">100%</span></label>
+                    </div>
+                    <button class="btn-emergency" id="btn-emergency-pause" onclick="pauseProtocol()">Activate Emergency Pause</button>
+                    <button class="btn-emergency" id="btn-protocol-restore" style="display: none;" onclick="resumeProtocol()">Restore Protocol</button>
+                </div>
+
             </div>
         </div>
+
+        <!-- Logs Panel -->
+        <div class="panel logs-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Event & Transaction Logs</h2>
+                <div><i class="fas fa-history"></i></div>
+            </div>
+            <div id="logs-container"></div>
+        </div>
+
     </div>
+</div>
 
-    <script>
-        // Global simulator state
-        let protocolState = {
-            eggPrice: 1.00, // EGG$ is stable, so price is fixed
-            chiPrice: 1.25, // Simulated CHI price
-            cr: 125.3,
-            eggSupply: 1245320,
-            chiSupply: 1255320,
-            feesAccumulated: 5320,
-            chiReserve: 25000,
-            isPaused: false,
-            assetPrices: { // Fallback simulated collateral asset prices in USD
-                "WBTC": 108000,
-                "WETH": 2700,
-                "WBNB": 650,
-                "ADA": 0.8,
-                "SOL": 180
-            },
-            collateralAssets: { // Balance and weight of collateral assets
-                "WBTC": { name: "Wrapped Bitcoin", amount: 18.5, weight: 32.1, target: 35, icon: "fab fa-bitcoin", coingeckoId: "wrapped-bitcoin" },
-                "WETH": { name: "Wrapped Ethereum", amount: 124.2, weight: 25.8, target: 25, icon: "fab fa-ethereum", coingeckoId: "ethereum" },
-                "WBNB": { name: "Wrapped BNB", amount: 2450, weight: 19.2, target: 20, icon: "fab fa-btc", coingeckoId: "binancecoin" }, // Using fab fa-btc as a placeholder for BNB
-                "ADA": { name: "Cardano (ERC-20)", amount: 42100, weight: 9.8, target: 10, icon: "fas fa-coins", coingeckoId: "cardano" },
-                "SOL": { name: "Solana (BSC)", amount: 1850, weight: 13.1, target: 10, icon: "fas fa-sun", coingeckoId: "solana" }
-            }
-        };
-
-        // Function to get current formatted time
-        function getCurrentTime() {
-            const now = new Date();
-            return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+<script>
+    let protocolState = {
+        eggPrice: 1.00,
+        chiPrice: 1.00,
+        eggSupply: 0,
+        chiSupply: 0,
+        feesAccumulated: 5320,
+        chiReserve: 25000,
+        isPaused: false,
+        assetPrices: {
+            "WBTC": 100000,
+            "WETH": 3000,
+            "WBNB": 600,
+            "ADA": 0.5,
+            "SOL": 150
+        },
+        collateralAssets: {
+            "WBTC": { name: "Wrapped Bitcoin", amount: 0, weight: 0, target: 35, icon: "fab fa-bitcoin", coingeckoId: "wrapped-bitcoin" },
+            "WETH": { name: "Wrapped Ethereum", amount: 0, weight: 0, target: 25, icon: "fab fa-ethereum", coingeckoId: "ethereum" },
+            "WBNB": { name: "Wrapped BNB", amount: 0, weight: 0, target: 15, icon: "fab fa-btc", coingeckoId: "binancecoin" },
+            "ADA": { name: "Cardano (ERC-20)", amount: 0, weight: 0, target: 10, icon: "fas fa-coins", coingeckoId: "cardano" },
+            "SOL": { name: "Solana (BSC)", amount: 0, weight: 0, target: 15, icon: "fas fa-sun", coingeckoId: "solana" }
         }
+    };
 
-        // Function to update UI with current state data
-        function updateUI() {
-            document.getElementById('egg-price').textContent = `$${protocolState.eggPrice.toFixed(2)}`;
-            document.getElementById('chi-price').textContent = `$${protocolState.chiPrice.toFixed(2)}`;
-            document.getElementById('cr-value').textContent = `${protocolState.cr.toFixed(1)}%`;
-            document.getElementById('egg-supply').textContent = protocolState.eggSupply.toLocaleString();
-            document.getElementById('chi-supply').textContent = protocolState.chiSupply.toLocaleString();
-            document.getElementById('fees-value').textContent = `${protocolState.feesAccumulated.toLocaleString()} BUSD`;
-            document.getElementById('reserve-value').textContent = protocolState.chiReserve.toLocaleString();
+    // FIX 1: Added this function to calculate coverage ratio correctly
+    function calculateCoverageRatio() {
+        const totalCollateralUSD = Object.keys(protocolState.collateralAssets).reduce((sum, key) => 
+            sum + (protocolState.collateralAssets[key].amount * protocolState.assetPrices[key]), 0);
+        const nominalValue = protocolState.eggSupply * protocolState.eggPrice;
+        return nominalValue === 0 ? 0 : (totalCollateralUSD / nominalValue) * 100;
+    }
 
-            document.getElementById('emergency-egg-price').textContent = `$${protocolState.eggPrice.toFixed(2)}`;
-            document.getElementById('emergency-cr').textContent = `${protocolState.cr.toFixed(1)}%`;
+    function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
 
-            const statusIndicator = document.getElementById('status-indicator');
-            const statusText = document.getElementById('status-text');
-            if (protocolState.isPaused) {
-                statusIndicator.className = 'status-indicator status-paused';
-                statusText.textContent = 'Paused';
-                document.getElementById('btn-emergency-pause').style.display = 'none';
-                document.getElementById('btn-protocol-restore').style.display = 'block';
-            } else {
-                statusIndicator.className = 'status-indicator status-active';
-                statusText.textContent = 'Active';
-                document.getElementById('btn-emergency-pause').style.display = 'block';
-                document.getElementById('btn-protocol-restore').style.display = 'none';
-            }
+    function addLog(message, type) {
+        const logsContainer = document.getElementById('logs-container');
+        const logEntry = document.createElement('div');
+        logEntry.className = `log-entry`;
+        logEntry.innerHTML = `<span class="log-timestamp">[${getCurrentTime()}]</span>${message}`;
+        logsContainer.insertBefore(logEntry, logsContainer.firstChild);
+    }
 
-            renderCollateralAssets(); // Render collateral assets with updated prices/amounts
-        }
+    // FIX 2: Completely rewrote this function to properly calculate asset weights
+    function updateUI() {
+        document.getElementById('egg-price').textContent = `$${protocolState.eggPrice.toFixed(2)}`;
+        document.getElementById('chi-price').textContent = `$${protocolState.chiPrice.toFixed(2)}`;
+        
+        // Calculate coverage ratio correctly
+        const coverageRatio = calculateCoverageRatio();
+        document.getElementById('cr-value').textContent = `${coverageRatio.toFixed(1)}%`;
+        
+        document.getElementById('egg-supply').textContent = protocolState.eggSupply.toLocaleString();
+        document.getElementById('chi-supply').textContent = protocolState.chiSupply.toLocaleString();
+        document.getElementById('fees-value').textContent = `${protocolState.feesAccumulated.toLocaleString()} BUSD`;
+        document.getElementById('reserve-value').textContent = protocolState.chiReserve.toLocaleString();
+        document.getElementById('available-fees').textContent = `${protocolState.feesAccumulated.toLocaleString()} BUSD`;
+        document.getElementById('chi-to-burn').textContent = `~${Math.floor(protocolState.feesAccumulated / protocolState.chiPrice).toLocaleString()}`;
+        document.getElementById('chi-reserve-sim').textContent = protocolState.chiReserve.toLocaleString();
+        document.getElementById('chi-burn-sim').textContent = `${Math.floor(protocolState.chiReserve * 0.05).toLocaleString()} (5%)`;
+        document.getElementById('emergency-egg-price').textContent = `$${protocolState.eggPrice.toFixed(2)}`;
+        document.getElementById('emergency-cr').textContent = `${coverageRatio.toFixed(1)}%`;
 
-        // Function to add a log entry
-        function addLog(message, type) {
-            const logsContainer = document.getElementById('logs-container');
-            const logEntry = document.createElement('div');
-            logEntry.className = `log-entry log-${type}`;
-            logEntry.innerHTML = `
-                <span class="log-timestamp">[${getCurrentTime()}]</span>
-                ${message}
+        const container = document.getElementById('collateral-assets-display');
+        container.innerHTML = '';
+
+        // Calculate total USD value correctly
+        const totalUSDValue = Object.keys(protocolState.collateralAssets).reduce((sum, key) => 
+            sum + (protocolState.collateralAssets[key].amount * protocolState.assetPrices[key]), 0);
+
+        for (const key in protocolState.collateralAssets) {
+            const asset = protocolState.collateralAssets[key];
+            const valueUSD = asset.amount * protocolState.assetPrices[key];
+            const weight = totalUSDValue > 0 ? (valueUSD / totalUSDValue) * 100 : 0;
+            
+            const div = document.createElement('div');
+            div.className = 'asset-card';
+            div.innerHTML = `
+                <div class="asset-icon"><i class="${asset.icon}"></i></div>
+                <div class="asset-name">${key}</div>
+                <div class="asset-balance">${asset.amount.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 4 })}</div>
+                <div class="asset-price">Price: $${protocolState.assetPrices[key].toLocaleString()}</div>
+                <div class="asset-percentage">Weight: ${weight.toFixed(1)}% (Target: ${asset.target}%)</div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: ${Math.min(100, weight / asset.target * 100)}%"></div>
+                </div>
+                <div class="tooltip">This asset's current weight is ${weight.toFixed(1)}%. Target: ${asset.target}%</div>
             `;
-            logsContainer.insertBefore(logEntry, logsContainer.firstChild);
+            container.appendChild(div);
         }
 
-        // Function to render collateral assets
-        function renderCollateralAssets() {
-            const container = document.getElementById('collateral-assets-display');
-            container.innerHTML = ''; // Clear existing content
-            for (const key in protocolState.collateralAssets) {
-                const asset = protocolState.collateralAssets[key];
-                const assetCard = document.createElement('div');
-                assetCard.className = 'asset-card';
-                assetCard.innerHTML = `
-                    <div class="asset-icon"><i class="${asset.icon}"></i></div>
-                    <div class="asset-name">${key}</div>
-                    <div class="asset-balance">${asset.amount.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 4 })}</div>
-                    <div class="asset-price">Price: ${protocolState.assetPrices[key].toLocaleString(undefined, { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                    <div class="asset-percentage">Weight: ${asset.weight.toFixed(1)}% (Target: ${asset.target}%)</div>
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: ${Math.min(100, (asset.weight / asset.target) * 100)}%"></div>
-                    </div>
-                `;
-                container.appendChild(assetCard);
-            }
+        document.getElementById('auto-rebalance-asset').textContent = getOverweightedAsset() || "None";
+    }
+
+    function getOverweightedAsset() {
+        const overweights = Object.keys(protocolState.collateralAssets)
+            .filter(key => protocolState.collateralAssets[key].weight > protocolState.collateralAssets[key].target);
+        return overweights.length ? overweights[0] : null;
+    }
+
+    // FIX 3: Fixed rebalancing calculation
+    function executeAutoRebalance() {
+        const asset = getOverweightedAsset();
+        if (!asset) {
+            alert("No overweighted asset found.");
+            return;
         }
 
-        // Helper to choose an asset for redeem (prioritizes overweighted)
-        function getRedeemAsset() {
-            // Prioritize overweighted assets for redeem
-            const overweightedAssets = Object.keys(protocolState.collateralAssets).filter(assetName => 
-                protocolState.collateralAssets[assetName].weight > protocolState.collateralAssets[assetName].target
-            );
-            if (overweightedAssets.length > 0) {
-                // For simplicity, pick the asset with the highest overweight percentage
-                return overweightedAssets.reduce((prev, current) => 
-                    (protocolState.collateralAssets[prev].weight - protocolState.collateralAssets[prev].target) > 
-                    (protocolState.collateralAssets[current].weight - protocolState.collateralAssets[current].target) ? prev : current
-                );
-            } else {
-                // If no assets are overweighted, choose a random one
-                const assets = Object.keys(protocolState.collateralAssets);
-                return assets[Math.floor(Math.random() * assets.length)];
-            }
+        // Calculate actual amount to rebalance
+        const currentWeight = protocolState.collateralAssets[asset].weight;
+        const targetWeight = protocolState.collateralAssets[asset].target;
+        const weightDifference = currentWeight - targetWeight;
+        
+        // Calculate total portfolio value
+        const totalUSDValue = Object.keys(protocolState.collateralAssets).reduce((sum, key) => 
+            sum + (protocolState.collateralAssets[key].amount * protocolState.assetPrices[key]), 0);
+        
+        // Calculate USD amount to sell
+        const usdToSell = totalUSDValue * (weightDifference / 100);
+        
+        // Calculate asset amount to sell
+        const assetAmountToSell = usdToSell / protocolState.assetPrices[asset];
+        
+        // Apply changes
+        protocolState.collateralAssets[asset].amount -= assetAmountToSell;
+        protocolState.feesAccumulated += usdToSell * 0.001; // 0.1% fee
+
+        addLog(`<i class="fas fa-balance-scale"></i> Rebalance executed: Sold ${assetAmountToSell.toFixed(4)} ${asset} to adjust weight`, 'rebalance');
+        updateUI();
+    }
+
+    function buybackChi() {
+        if (protocolState.feesAccumulated <= 0) {
+            alert("No fees available for buyback");
+            return;
         }
 
-        // Function to fetch crypto prices from CoinGecko API
-        async function fetchCryptoPrices() {
-            const ids = Object.values(protocolState.collateralAssets).map(asset => asset.coingeckoId).join(',');
-            const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`;
+        const chiBurned = Math.floor(protocolState.feesAccumulated / protocolState.chiPrice);
+        protocolState.chiSupply -= chiBurned;
+        protocolState.feesAccumulated = 0;
 
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                
+        addLog(`<i class="fas fa-fire"></i> Buyback completed: ${chiBurned.toLocaleString()} CHI burned using fees`, 'buyback');
+        updateUI();
+    }
+
+    function burnChiReserve() {
+        const chiBurned = Math.floor(protocolState.chiReserve * 0.05);
+        protocolState.chiReserve -= chiBurned;
+        protocolState.chiSupply -= chiBurned;
+
+        addLog(`<i class="fas fa-shield-alt"></i> Level 1 activated: ${chiBurned.toLocaleString()} CHI burned from reserve`, 'emergency');
+        updateUI();
+    }
+
+    function forcedDeleveraging() {
+        const chiMinted = 8500;
+        const eggBurned = 12300;
+        protocolState.chiSupply += chiMinted;
+        protocolState.eggSupply -= eggBurned;
+
+        addLog(`<i class="fas fa-exclamation-triangle"></i> Level 2 activated: ${chiMinted.toLocaleString()} CHI minted and sold, ${eggBurned.toLocaleString()} EGG$ burned`, 'emergency');
+        updateUI();
+    }
+
+    function pauseProtocol() {
+        protocolState.isPaused = true;
+        document.getElementById('btn-emergency-pause').style.display = 'none';
+        document.getElementById('btn-protocol-restore').style.display = 'block';
+        addLog(`<i class="fas fa-pause-circle"></i> Emergency pause activated`, 'emergency');
+        updateUI();
+    }
+
+    function resumeProtocol() {
+        protocolState.isPaused = false;
+        document.getElementById('btn-emergency-pause').style.display = 'block';
+        document.getElementById('btn-protocol-restore').style.display = 'none';
+        addLog(`<i class="fas fa-play-circle"></i> Protocol restored from emergency`, 'emergency');
+        updateUI();
+    }
+
+    // FIX 4: Fixed minting calculation and flow
+    function calculateMintPreview() {
+        const assetKey = document.getElementById('mint-asset').value;
+        const amount = parseFloat(document.getElementById('mint-amount').value);
+        
+        if (!amount || amount <= 0) {
+            alert("Please enter a valid amount");
+            return;
+        }
+        
+        const price = protocolState.assetPrices[assetKey];
+        const collateralUSD = amount * price;
+        const eggTokens = collateralUSD * 0.5; // 50% of value becomes EGG$
+        const chiTokens = collateralUSD * 0.5; // 50% becomes CHI
+
+        document.getElementById('preview-egg').textContent = eggTokens.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        document.getElementById('preview-chi').textContent = chiTokens.toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+        document.getElementById('mint-preview').style.display = 'block';
+        document.getElementById('btn-mint-preview').style.display = 'none';
+        document.getElementById('btn-mint-confirm').style.display = 'block';
+    }
+
+    function confirmMint() {
+        const assetKey = document.getElementById('mint-asset').value;
+        const amount = parseFloat(document.getElementById('mint-amount').value);
+        
+        if (!amount || amount <= 0) {
+            alert("Please enter a valid amount");
+            return;
+        }
+        
+        const price = protocolState.assetPrices[assetKey];
+        const collateralUSD = amount * price;
+        const eggTokens = collateralUSD * 0.5; // 50% of value becomes EGG$
+        const chiTokens = collateralUSD * 0.5; // 50% becomes CHI
+
+        protocolState.eggSupply += eggTokens;
+        protocolState.chiSupply += chiTokens;
+        protocolState.collateralAssets[assetKey].amount += amount;
+        protocolState.feesAccumulated += collateralUSD * 0.001; // 0.1% fee
+
+        addLog(`<i class="fas fa-plus-circle"></i> Mint executed: ${amount} ${assetKey} → ${eggTokens.toLocaleString(undefined, { maximumFractionDigits: 2 })} EGG$ and ${chiTokens.toLocaleString(undefined, { maximumFractionDigits: 2 })} CHI`, 'mint');
+
+        document.getElementById('mint-amount').value = "";
+        document.getElementById('mint-preview').style.display = 'none';
+        document.getElementById('btn-mint-confirm').style.display = 'none';
+        document.getElementById('btn-mint-preview').style.display = 'block';
+
+        updateUI();
+    }
+
+    // FIX 5: Fixed redemption calculation and flow
+    function calculateRedeem() {
+        const eggAmount = parseFloat(document.getElementById('redeem-input-amount').value);
+        if (!eggAmount || eggAmount <= 0) {
+            alert("Please enter a valid amount");
+            return;
+        }
+
+        const chiRequired = eggAmount; // 1:1 ratio for simplicity
+        const totalUSD = eggAmount * protocolState.eggPrice + chiRequired * protocolState.chiPrice;
+        const redeemAsset = getRedeemAsset();
+        const amountToReceive = totalUSD / protocolState.assetPrices[redeemAsset];
+
+        document.getElementById('redeem-preview-egg').textContent = Math.round(eggAmount).toLocaleString();
+        document.getElementById('redeem-preview-chi').textContent = Math.round(chiRequired).toLocaleString();
+        document.getElementById('redeem-output').textContent = `${amountToReceive.toFixed(4)} ${redeemAsset}`;
+        document.getElementById('redeem-preview').style.display = 'block';
+        document.getElementById('btn-redeem-preview').style.display = 'none';
+        document.getElementById('btn-redeem-confirm').style.display = 'block';
+    }
+
+    function confirmRedeem() {
+        const eggAmount = parseFloat(document.getElementById('redeem-input-amount').value);
+        if (!eggAmount || eggAmount <= 0) {
+            alert("Please enter a valid amount");
+            return;
+        }
+
+        const chiRequired = eggAmount; // 1:1 ratio for simplicity
+        const totalUSD = eggAmount * protocolState.eggPrice + chiRequired * protocolState.chiPrice;
+        const redeemAsset = getRedeemAsset();
+        const amountToReceive = totalUSD / protocolState.assetPrices[redeemAsset];
+
+        // Check sufficient collateral
+        if (protocolState.collateralAssets[redeemAsset].amount < amountToReceive) {
+            alert(`Not enough ${redeemAsset} collateral available`);
+            return;
+        }
+
+        protocolState.eggSupply -= eggAmount;
+        protocolState.chiSupply -= chiRequired;
+        protocolState.collateralAssets[redeemAsset].amount -= amountToReceive;
+        protocolState.feesAccumulated += totalUSD * 0.001; // 0.1% fee
+
+        addLog(`<i class="fas fa-minus-circle"></i> Redeem executed: ${eggAmount.toLocaleString()} EGG$ and ${chiRequired.toLocaleString()} CHI → ${amountToReceive.toFixed(4)} ${redeemAsset}`, 'redeem');
+
+        document.getElementById('redeem-input-amount').value = "";
+        document.getElementById('redeem-preview').style.display = 'none';
+        document.getElementById('btn-redeem-preview').style.display = 'block';
+        document.getElementById('btn-redeem-confirm').style.display = 'none';
+
+        updateUI();
+    }
+
+    function getRedeemAsset() {
+        const assets = Object.keys(protocolState.collateralAssets);
+        return assets[Math.floor(Math.random() * assets.length)];
+    }
+
+    // FIX 6: Added Coingecko API integration with error handling
+    function updateUIWithCryptoPrices() {
+        const ids = Object.values(protocolState.collateralAssets).map(a => a.coingeckoId).join(',');
+        fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`)
+            .then(res => {
+                if (!res.ok) throw new Error('API response error');
+                return res.json();
+            })
+            .then(data => {
                 for (const key in protocolState.collateralAssets) {
                     const coingeckoId = protocolState.collateralAssets[key].coingeckoId;
-                    if (data[coingeckoId] && data[coingeckoId].usd) {
+                    if (data[coingeckoId]?.usd) {
                         protocolState.assetPrices[key] = data[coingeckoId].usd;
                     }
                 }
-                console.log("Crypto prices updated:", protocolState.assetPrices);
-            } catch (error) {
-                console.error("Error fetching crypto prices:", error);
-                // Fallback to static prices if API fails (already defined in protocolState.assetPrices)
-                alert("Could not fetch cryptocurrency prices. Default values will be used.");
-            } finally {
-                updateUI(); // Always update UI after price fetch attempt
-            }
-        }
+                updateUI();
+            })
+            .catch(error => {
+                console.error("Failed to fetch prices:", error);
+                addLog(`<i class="fas fa-exclamation-triangle"></i> Price update failed: using cached values`, 'emergency');
+                updateUI();
+            });
+    }
 
-        // --- Event Listeners ---
+    // Initialize event listeners
+    document.getElementById('btn-mint-preview').addEventListener('click', calculateMintPreview);
+    document.getElementById('btn-mint-confirm').addEventListener('click', confirmMint);
+    document.getElementById('btn-redeem-preview').addEventListener('click', calculateRedeem);
+    document.getElementById('btn-redeem-confirm').addEventListener('click', confirmRedeem);
 
-        // Mint: Calculate Preview
-        document.getElementById('btn-mint-preview').addEventListener('click', function() {
-            const asset = document.getElementById('mint-asset').value;
-            const amount = parseFloat(document.getElementById('mint-amount').value);
-            
-            if (isNaN(amount) || amount <= 0) {
-                alert('Please enter a valid amount.');
-                return;
-            }
-
-            // Calculate total USD value of collateral
-            const collateralUSDValue = amount * protocolState.assetPrices[asset];
-            
-            // For 1:1 value, split USD value equally between EGG$ and CHI
-            const eggValue = collateralUSDValue / 2;
-            const chiValue = collateralUSDValue / 2;
-
-            const eggAmount = eggValue / protocolState.eggPrice;
-            const chiAmount = chiValue / protocolState.chiPrice; 
-            
-            document.getElementById('preview-egg').textContent = Math.round(eggAmount).toLocaleString();
-            document.getElementById('preview-chi').textContent = Math.round(chiAmount).toLocaleString();
-            document.getElementById('mint-preview').style.display = 'block';
-            document.getElementById('btn-mint-preview').style.display = 'none';
-            document.getElementById('btn-mint-confirm').style.display = 'block';
-        });
-
-        // Mint: Confirm Execution
-        document.getElementById('btn-mint-confirm').addEventListener('click', function() {
-            const asset = document.getElementById('mint-asset').value;
-            const amount = parseFloat(document.getElementById('mint-amount').value);
-            const eggAmount = parseInt(document.getElementById('preview-egg').textContent.replace(/,/g, ''));
-            const chiAmount = parseInt(document.getElementById('preview-chi').textContent.replace(/,/g, ''));
-
-            if (isNaN(amount) || amount <= 0 || isNaN(eggAmount) || isNaN(chiAmount)) {
-                alert('An error occurred, please try calculating mint again.');
-                return;
-            }
-
-            // Update protocol state (simplified for simulation)
-            protocolState.eggSupply += eggAmount;
-            protocolState.chiSupply += chiAmount;
-            protocolState.collateralAssets[asset].amount += amount; // Add minted collateral to asset balance
-
-            addLog(`<i class="fas fa-plus-circle"></i> Mint executed: ${amount} ${asset} → ${eggAmount.toLocaleString()} EGG$ and ${chiAmount.toLocaleString()} CHI`, 'mint');
-            
-            // Reset form and preview
-            document.getElementById('mint-amount').value = '';
-            document.getElementById('mint-preview').style.display = 'none';
-            document.getElementById('btn-mint-preview').style.display = 'block';
-            document.getElementById('btn-mint-confirm').style.display = 'none';
-            updateUI();
-        });
-        
-        // Redeem: Calculate Preview
-        document.getElementById('btn-redeem-preview').addEventListener('click', function() {
-            const inputAmount = parseFloat(document.getElementById('redeem-input-amount').value);
-            
-            if (isNaN(inputAmount) || inputAmount <= 0) {
-                alert('Please enter a valid amount for EGG$ or CHI.');
-                return;
-            }
-
-            // For simplicity, let's assume the input `inputAmount` refers to the amount of EGG$ the user wants to redeem
-            // and the system will automatically require an equivalent USD value of CHI.
-            
-            const eggToRedeem = inputAmount;
-            const chiToRedeem = (eggToRedeem * protocolState.eggPrice) / protocolState.chiPrice; // CHI value needed for 1:1 USD with EGG$
-
-            // Determine which collateral asset will be returned by the protocol
-            const redeemedAsset = getRedeemAsset();
-            const totalRedeemUSDValue = (eggToRedeem * protocolState.eggPrice) + (chiToRedeem * protocolState.chiPrice);
-            const redeemedAssetAmount = (totalRedeemUSDValue / protocolState.assetPrices[redeemedAsset]).toFixed(4);
-
-            document.getElementById('redeem-preview-egg').textContent = Math.round(eggToRedeem).toLocaleString();
-            document.getElementById('redeem-preview-chi').textContent = Math.round(chiToRedeem).toLocaleString();
-            document.getElementById('redeem-output-amount').textContent = redeemedAssetAmount;
-            document.getElementById('redeem-output-asset').textContent = redeemedAsset;
-
-            document.getElementById('redeem-preview').style.display = 'block';
-            document.getElementById('btn-redeem-preview').style.display = 'none';
-            document.getElementById('btn-redeem-confirm').style.display = 'block';
-        });
-
-        // Redeem: Confirm Execution
-        document.getElementById('btn-redeem-confirm').addEventListener('click', function() {
-            const eggAmount = parseInt(document.getElementById('redeem-preview-egg').textContent.replace(/,/g, ''));
-            const chiAmount = parseInt(document.getElementById('redeem-preview-chi').textContent.replace(/,/g, ''));
-            const redeemedAssetAmount = parseFloat(document.getElementById('redeem-output-amount').textContent);
-            const redeemedAsset = document.getElementById('redeem-output-asset').textContent;
-
-            if (isNaN(eggAmount) || isNaN(chiAmount) || isNaN(redeemedAssetAmount) || redeemedAsset === '') {
-                alert('An error occurred, please try calculating redeem again.');
-                return;
-            }
-
-            // Update protocol state (simplified for simulation)
-            protocolState.eggSupply -= eggAmount;
-            protocolState.chiSupply -= chiAmount;
-            protocolState.collateralAssets[redeemedAsset].amount -= redeemedAssetAmount;
-
-            addLog(`<i class="fas fa-minus-circle"></i> Redeem executed: ${eggAmount.toLocaleString()} EGG$ and ${Math.round(chiAmount).toLocaleString()} CHI → ${redeemedAssetAmount} ${redeemedAsset}`, 'redeem');
-            
-            // Reset form and preview
-            document.getElementById('redeem-input-amount').value = '';
-            document.getElementById('redeem-preview').style.display = 'none';
-            document.getElementById('btn-redeem-preview').style.display = 'block';
-            document.getElementById('btn-redeem-confirm').style.display = 'none';
-            updateUI();
-        });
-        
-        document.querySelector('.btn-rebalance').addEventListener('click', function() {
-            addLog(`<i class="fas fa-balance-scale"></i> Rebalance executed: Sold 1.5 SOL.b for 0.35 WBTC`, 'rebalance');
-            
-            // Update state (e.g., asset weights)
-            // This is a simplified simulation. In a real protocol, rebalancing would adjust amounts and weights.
-            // For now, let's just simulate the visual change.
-            protocolState.collateralAssets["SOL"].weight = 10.5; // Closer to target
-            protocolState.collateralAssets["WBTC"].weight = 34.0; // Closer to target
-
-            updateUI(); // Re-render to show updated weights/progress bars
-        });
-        
-        document.querySelector('.btn-buyback').addEventListener('click', function() {
-            const chiBurned = Math.floor(Math.random() * 500) + 800; // Simulated amount
-            
-            addLog(`<i class="fas fa-fire"></i> Buyback completed: ${chiBurned.toLocaleString()} CHI burned using ${protocolState.feesAccumulated.toLocaleString()} BUSD`, 'buyback');
-            
-            // Reset fees and reduce CHI supply
-            protocolState.feesAccumulated = 0;
-            protocolState.chiSupply -= chiBurned;
-            updateUI();
-        });
-        
-        document.querySelector('.btn-level1').addEventListener('click', function() {
-            const chiBurned = 1250; // Fixed amount for simulation
-            addLog(`<i class="fas fa-shield-alt"></i> Level 1 activated: ${chiBurned.toLocaleString()} CHI burned from reserve`, 'emergency');
-            
-            // Update reserve
-            protocolState.chiReserve -= chiBurned;
-            updateUI();
-        });
-        
-        document.querySelector('.btn-level2').addEventListener('click', function() {
-            const chiMinted = 8500; // Fixed amount for simulation
-            const eggBurned = 12300; // Fixed amount for simulation
-
-            addLog(`<i class="fas fa-exclamation-triangle"></i> Level 2 activated: ${chiMinted.toLocaleString()} CHI minted and sold, ${eggBurned.toLocaleString()} EGG$ burned`, 'emergency');
-            
-            // Update supply
-            protocolState.eggSupply -= eggBurned;
-            protocolState.chiSupply += chiMinted;
-            updateUI();
-        });
-        
-        document.getElementById('btn-emergency-pause').addEventListener('click', function() {
-            protocolState.isPaused = true;
-            addLog(`<i class="fas fa-pause-circle"></i> Protocol in Emergency Pause!`, 'emergency');
-            updateUI();
-        });
-
-        document.getElementById('btn-protocol-restore').addEventListener('click', function() {
-            // In a real scenario, checks would be performed before unpausing
-            protocolState.isPaused = false;
-            addLog(`<i class="fas fa-play-circle"></i> Protocol restored from emergency pause`, 'emergency');
-            updateUI();
-        });
-
-        // Initialize UI on load
-        document.addEventListener('DOMContentLoaded', fetchCryptoPrices); // Fetch prices on load
-    </script>
+    document.addEventListener('DOMContentLoaded', () => {
+        updateUI();
+        updateUIWithCryptoPrices();
+        // Refresh prices every 5 minutes
+        setInterval(updateUIWithCryptoPrices, 300000);
+    });
+</script>
 </body>
 </html>
